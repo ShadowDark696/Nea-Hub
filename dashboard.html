@@ -118,7 +118,7 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        
+
         .animate-fade-in {
             animation: fadeIn 0.6s ease forwards;
         }
@@ -196,7 +196,7 @@
             }
         }
 
-        
+
         .member-card {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(157, 78, 221, 0.2);
@@ -1012,17 +1012,20 @@
                                     class="w-full pl-8 pr-3 py-2 text-xs rounded border-red-500/30 bg-black/40 ring-1 ring-red-500/20"
                                     placeholder="Buscar rol...">
                             </div>
-                            <div id="blacklist_role_list" class="premium-list scrollbar !border-red-500/10 mb-4 max-h-60">
+                            <div id="blacklist_role_list"
+                                class="premium-list scrollbar !border-red-500/10 mb-4 max-h-60">
                                 <div class="text-xs text-red-300/50 p-4 text-center">Cargando roles...</div>
                             </div>
-                            <div id="blacklist_roles_selected" class="mb-4 p-3 rounded bg-black/40 border border-red-500/20 min-h-10">
+                            <div id="blacklist_roles_selected"
+                                class="mb-4 p-3 rounded bg-black/40 border border-red-500/20 min-h-10">
                                 <p class="text-xs text-red-300/70 mb-2">Roles seleccionados:</p>
                                 <div id="blacklist_roles_tags" class="flex flex-wrap gap-2">
                                     <span class="text-xs text-red-300/50">Ninguno</span>
                                 </div>
                             </div>
                             <label class="text-xs text-red-300 mb-1 block hacker-font">RAZÓN (OPCIONAL)</label>
-                            <input id="blacklist_reason" type="text" class="w-full px-3 py-2 mb-4 rounded !border-red-500/50"
+                            <input id="blacklist_reason" type="text"
+                                class="w-full px-3 py-2 mb-4 rounded !border-red-500/50"
                                 placeholder="Motivo de la prohibición...">
                             <div class="grid grid-cols-2 gap-4">
                                 <button id="btn_do_blacklist"
@@ -1034,7 +1037,8 @@
                             </div>
                             <div class="mt-6 pt-6 border-t border-red-500/20">
                                 <label class="text-xs text-red-300 mb-2 block hacker-font">LISTAR EN BLACKLIST</label>
-                                <div id="blacklist_list_container" class="bg-black/30 p-4 rounded border border-red-500/20 max-h-64 overflow-y-auto scrollbar">
+                                <div id="blacklist_list_container"
+                                    class="bg-black/30 p-4 rounded border border-red-500/20 max-h-64 overflow-y-auto scrollbar">
                                     <div class="text-xs text-red-300/50 p-4 text-center">Cargando...</div>
                                 </div>
                             </div>
@@ -1561,7 +1565,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label class="text-xs text-rose-400 hacker-font mb-1 block">SELECCIONAR MIEMBRO</label>
@@ -1591,7 +1595,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="bg-rose-900/10 p-4 rounded border border-rose-500/20 mb-4">
                             <h3 class="text-sm text-rose-300 hacker-font mb-3"><i
                                     class="fa-solid fa-plus-circle mr-2"></i>APLICAR NUEVA INFRACCIÓN</h3>
@@ -1606,7 +1610,7 @@
                                 de aplicar.</p>
                         </div>
 
-                        
+
                         <div class="flex items-center justify-between mb-2">
                             <h3 class="text-sm text-rose-300 hacker-font"><i
                                     class="fa-solid fa-list mr-2"></i>INFRACCIONES REGISTRADAS — <span id="warns_count"
@@ -1717,7 +1721,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div class="bg-amber-900/20 p-4 rounded border border-amber-500/20">
                                 <label class="text-xs text-amber-300 hacker-font block mb-2">ESTADO DEL SISTEMA</label>
@@ -1753,7 +1757,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="bg-amber-900/10 p-4 rounded border border-amber-500/20 mb-4">
                             <h3 class="text-sm text-amber-300 hacker-font mb-3"><i
                                     class="fa-solid fa-plus mr-2"></i>AGREGAR NUEVA REGLA</h3>
@@ -1790,7 +1794,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div>
                             <h3 class="text-sm text-amber-300 hacker-font mb-2"><i
                                     class="fa-solid fa-list mr-2"></i>REGLAS CONFIGURADAS</h3>
@@ -4819,17 +4823,17 @@
             const cid = containerId.replace('#', '');
             document.querySelectorAll(`#${cid} .member-card`).forEach(c => c.classList.remove('selected'));
             cardEl.classList.add('selected');
-            
+
             if (hiddenId === '#bureau_member_select') {
                 const searchId = document.getElementById('bureau_search_id');
                 if (searchId) searchId.value = value;
             }
-            
+
             if (hiddenId === '#warns_member_select') {
                 const warnSearchId = document.getElementById('warns_search_id');
                 if (warnSearchId) warnSearchId.value = value;
             }
-            
+
             if (hiddenId === '#sen_new_role_id') {
                 const role = cachedRoles.find(r => r.id === value);
                 const nameEl = document.getElementById('sen_new_role_name');
@@ -5630,7 +5634,7 @@
             const r = await api('/api/bot/eval', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: `const Warn=require('./src/models/WarnModel');const w=new Warn({guildId:'${currentGuildId}',userId:'${userId}',moderatorId:'Dashboard',reason:${JSON.stringify(reason)},date:new Date()});await w.save();'WARN_SAVED:'+w._id` }) });
             if (r && r.output && r.output.startsWith('WARN_SAVED')) {
                 document.getElementById('warns_reason').value = '';
-                
+
                 document.getElementById('btn_warns_search').click();
                 return { _msg: 'Warn aplicado a ' + memberName };
             }
@@ -5972,7 +5976,7 @@ ${imgs}${stickers}
             return r ? { _msg: 'Escalamiento de warns guardado' } : { error: 'Fallo al guardar escalamiento' };
         }));
 
-        
+
         let seniorityRules = [];
 
         function renderSeniorityRules() {
@@ -6145,7 +6149,7 @@ ${imgs}${stickers}
             seniorityRules.push({ roleId, roleName, daysRequired: days, emoji });
             seniorityRules.sort((a, b) => a.daysRequired - b.daysRequired);
             renderSeniorityRules();
-            
+
             document.getElementById('sen_new_days').value = '';
             document.getElementById('sen_new_role_search').value = '';
             document.getElementById('sen_new_role_id').value = '';
@@ -6166,7 +6170,7 @@ ${imgs}${stickers}
         wireBtn('btn_seniority_run', () => doAction('btn_seniority_run', async () => {
             const r = await api('/api/bot/eval', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: `const SeniorityJob=require('./src/jobs/seniorityJob');await SeniorityJob.runForGuild('${currentGuildId}');'SENIORITY_RUN_OK'` }) });
             if (r && r.output && r.output.includes('SENIORITY_RUN_OK')) return { _msg: 'Antigüedad ejecutada correctamente' };
-            
+
             return { _msg: 'Comando ejecutado (verifica logs del bot)', _warn: r?.output || 'Sin output' };
         }));
 
@@ -6484,6 +6488,18 @@ ${imgs}${stickers}
                 updateAuthUI(null);
             }
         })();
+    </script>
+
+    <script src="dashboard-role-blacklist.js" defer></script>
+    <script>
+        // Hook panel load event
+        const originalShowPanel = window.showPanel || function() {};
+        window.showPanel = function(panelId) {
+            originalShowPanel(panelId);
+            if (panelId === 'mod-roleblacklist') {
+                setTimeout(() => loadBlacklistPanel(), 100);
+            }
+        };
     </script>
 </body>
 
