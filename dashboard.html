@@ -277,7 +277,7 @@
 
                 <div id="auth-box-login"
                     class="text-sm text-green-400 hacker-font px-3 py-1 border border-green-500/30 rounded">
-                    ✓ LISTO | v2.0
+                    ✓ LISTO | v3.1.0
                 </div>
                 <a id="authBtn-login" href="https://rupc-qzce.onrender.com/auth/discord"
                     class="btn-cyber px-6 py-2 rounded font-bold hover:!text-white">
@@ -336,7 +336,7 @@
 
 
         <section id="view-dashboard"
-            class="absolute inset-0 w-full h-full hidden flex bg-[url('https://media.giphy.com/media/26tn33aiTi1jIGsnu/giphy.gif')] bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black/85 z-30">
+            class="absolute inset-0 w-full h-full hidden flex bg-[url('https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif')] bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black/85 z-30">
 
 
             <aside class="w-80 h-full border-r border-purple-500/20 glass-panel flex flex-col pt-6 z-10 shrink-0">
@@ -6493,8 +6493,8 @@ ${imgs}${stickers}
     <script src="dashboard-role-blacklist.js" defer></script>
     <script>
         // Hook panel load event
-        const originalShowPanel = window.showPanel || function() {};
-        window.showPanel = function(panelId) {
+        const originalShowPanel = window.showPanel || function () { };
+        window.showPanel = function (panelId) {
             originalShowPanel(panelId);
             if (panelId === 'mod-roleblacklist') {
                 setTimeout(() => loadBlacklistPanel(), 100);
