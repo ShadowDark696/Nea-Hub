@@ -1,0 +1,28 @@
+{
+  "version": "v2.5-OAUTH-FIXED",
+  "release_date": "2026-04-03",
+  "timestamp": "2026-04-03T20:30:00Z",
+  "build": 20260403203000,
+  "status": "LIVE",
+  "features": [
+    "66 Commands Panel",
+    "8 Categories: Music, Roles, Moderation, Entertainment, Config, Cedulas, Info, Admin",
+    "Discord OAuth 2.0 Integration - FIXED",
+    "Session Persistence - VERIFIED",
+    "Real-time Command Execution",
+    "Backend Auto-Recovery",
+    "Version Tracking System",
+    "F12 Console Debugging Info"
+  ],
+  "oauth_redirect": "https://rupc-qzce.onrender.com/auth/discord",
+  "github_pages": "https://shadowdark696.github.io/Nea-Hub/",
+  "backend": "https://rupc-qzce.onrender.com",
+  "backend_version_endpoint": "https://rupc-qzce.onrender.com/api/version",
+  "fixes": [
+    "✅ OAuth redirect URL verificada",
+    "✅ Console logging agregado",
+    "✅ Cache busting en index.html",
+    "✅ Version tracking system"
+  ],
+  "last_updated": "2026-04-03T20:30:00Z"
+}

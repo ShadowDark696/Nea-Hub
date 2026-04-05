@@ -1,0 +1,233 @@
+<!-- COMMAND CONTROL PANEL - 8 CATEGORÍAS -->
+<div id="commands-panel" class="w-full h-full flex flex-col bg-black/70 backdrop-blur">
+
+  <!-- HEADER COMANDOS -->
+  <div class="border-b border-purple-500/30 px-6 py-4 flex items-center justify-between bg-black/50">
+    <h2 class="text-2xl font-black text-white hacker-font">⚙️ CONTROL DE COMANDOS</h2>
+    <div class="flex gap-2">
+      <input id="cmd-search" placeholder="Buscar comando..." class="px-3 py-1 text-sm rounded w-64" />
+      <button id="cmd-filter-all" class="btn-cyber px-3 py-1 text-xs rounded">TODO</button>
+    </div>
+  </div>
+
+  <!-- TABS CATEGORIAS -->
+  <div class="border-b border-purple-500/20 flex gap-1 px-4 py-3 overflow-x-auto bg-black/30 scrollbar-h">
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20 active" data-category="all">
+      📋 Todo (66)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="music">
+      🎵 Música (8)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="roles">
+      👥 Roles (12)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="moderation">
+      ⚖️ Moderación (8)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="entertainment">
+      🎮 Entretenimiento (8)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="config">
+      ⚙️ Configuración (10)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="cedulas">
+      🆔 Cédulas (6)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="info">
+      ℹ️ Info (7)
+    </button>
+    <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20" data-category="admin">
+      🔐 Admin (7)
+    </button>
+  </div>
+
+  <!-- CONTENIDO COMANDOS -->
+  <div id="commands-content" class="flex-1 overflow-y-auto scrollbar p-6">
+    <div id="commands-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <!-- Se llenará con JavaScript -->
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL EJECUCIÓN COMANDO -->
+<div id="cmd-modal" class="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50 hidden">
+  <div class="bg-black/90 border border-purple-500/50 rounded-xl p-8 max-w-md w-full mx-4 animate-slide-up">
+    <h3 id="cmd-modal-title" class="text-xl font-bold text-white mb-4 hacker-font">Ejecutar Comando</h3>
+
+    <div id="cmd-params-container" class="space-y-3 mb-6">
+      <!-- Parámetros dinámicos -->
+    </div>
+
+    <div class="flex gap-3">
+      <button id="cmd-execute-btn" class="btn-cyber flex-1 py-2 rounded font-bold">
+        <i class="fa-solid fa-play mr-2"></i> EJECUTAR
+      </button>
+      <button id="cmd-modal-close" class="flex-1 py-2 rounded border border-red-500/50 text-red-400 hover:bg-red-500/20 font-bold">
+        Cancelar
+      </button>
+    </div>
+
+    <!-- Resultado -->
+    <div id="cmd-result" class="mt-4 p-3 rounded bg-black/50 border border-green-500/30 hidden max-h-48 overflow-y-auto">
+      <p class="text-xs text-green-400 hacker-font"><i class="fa-solid fa-circle-check mr-2"></i>Comando ejecutado:</p>
+      <pre id="cmd-result-text" class="text-xs text-gray-300 mt-2 whitespace-pre-wrap"></pre>
+    </div>
+  </div>
+</div>
+
+<style>
+  .scrollbar-h::-webkit-scrollbar { height: 4px; }
+  .scrollbar-h::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+  .scrollbar-h::-webkit-scrollbar-thumb { background: rgba(157, 78, 221, 0.4); border-radius: 2px; }
+
+  .cmd-card {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(157, 78, 221, 0.3);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cmd-card:hover {
+    background: rgba(157, 78, 221, 0.15);
+    border-color: rgba(157, 78, 221, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(157, 78, 221, 0.2);
+  }
+
+  .cmd-card.executing {
+    background: rgba(157, 78, 221, 0.25);
+    border-color: rgba(157, 78, 221, 0.8);
+  }
+
+  .cmd-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .cmd-name {
+    font-weight: bold;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .cmd-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 4px;
+  }
+
+  .cmd-params {
+    font-size: 10px;
+    color: rgba(0, 255, 157, 0.6);
+    margin-top: 6px;
+    font-family: monospace;
+  }
+</style>
+
+<script src="commands-manager.js"></script>
+<script>
+// RENDERIZAR COMANDOS
+function renderCommands(category = 'all') {
+  const grid = document.getElementById('commands-grid');
+  grid.innerHTML = '';
+
+  let commands = [];
+  if (category === 'all') {
+    Object.values(COMMAND_CATEGORIES).forEach(cat => commands.push(...cat.commands));
+  } else {
+    commands = COMMAND_CATEGORIES[category]?.commands || [];
+  }
+
+  commands.forEach(cmd => {
+    const card = document.createElement('div');
+    card.className = 'cmd-card group';
+    card.innerHTML = `
+      <div class="cmd-icon">${COMMAND_CATEGORIES[Object.keys(COMMAND_CATEGORIES).find(k => COMMAND_CATEGORIES[k].commands.includes(cmd))]?.name.split(' ')[0] || '⚙️'}</div>
+      <div class="cmd-name">${cmd.name}</div>
+      <div class="cmd-desc">${cmd.desc}</div>
+      <div class="cmd-params">${cmd.params.length ? '📝 ' + cmd.params.join(', ') : '✓ Sin parámetros'}</div>
+      <button class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-purple-500/50 hover:bg-purple-500 px-2 py-1 rounded text-xs transition">Ejecutar</button>
+    `;
+
+    card.addEventListener('click', () => openCommandModal(cmd));
+    grid.appendChild(card);
+  });
+}
+
+// MODAL COMANDOS
+let selectedCommand = null;
+
+function openCommandModal(cmd) {
+  selectedCommand = cmd;
+  document.getElementById('cmd-modal-title').textContent = `Ejecutar: ${cmd.name}`;
+
+  const container = document.getElementById('cmd-params-container');
+  container.innerHTML = '';
+
+  cmd.params.forEach(param => {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = param;
+    input.className = 'w-full px-3 py-2 rounded text-sm';
+    container.appendChild(input);
+  });
+
+  document.getElementById('cmd-result').classList.add('hidden');
+  document.getElementById('cmd-modal').classList.remove('hidden');
+}
+
+// EJECUTAR COMANDO
+document.getElementById('cmd-execute-btn').addEventListener('click', async () => {
+  if (!selectedCommand) return;
+
+  const params = Array.from(document.querySelectorAll('#cmd-params-container input')).map(i => i.value);
+
+  try {
+    const result = await executeCommand(
+      Object.keys(COMMAND_CATEGORIES).find(k => COMMAND_CATEGORIES[k].commands.includes(selectedCommand)),
+      selectedCommand.name,
+      params
+    );
+
+    document.getElementById('cmd-result-text').textContent = JSON.stringify(result, null, 2);
+    document.getElementById('cmd-result').classList.remove('hidden');
+  } catch (e) {
+    document.getElementById('cmd-result-text').textContent = '❌ Error: ' + e.message;
+    document.getElementById('cmd-result').classList.remove('hidden');
+  }
+});
+
+// CERRAR MODAL
+document.getElementById('cmd-modal-close').addEventListener('click', () => {
+  document.getElementById('cmd-modal').classList.add('hidden');
+  selectedCommand = null;
+});
+
+// TABS
+document.querySelectorAll('.cmd-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cmd-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderCommands(tab.dataset.category);
+  });
+});
+
+// BUSCAR
+document.getElementById('cmd-search').addEventListener('input', (e) => {
+  const search = e.target.value.toLowerCase();
+  document.querySelectorAll('.cmd-card').forEach(card => {
+    const name = card.querySelector('.cmd-name').textContent.toLowerCase();
+    const desc = card.querySelector('.cmd-desc').textContent.toLowerCase();
+    card.style.display = name.includes(search) || desc.includes(search) ? '' : 'none';
+  });
+});
+
+// INICIAL
+renderCommands('all');
+</script>
