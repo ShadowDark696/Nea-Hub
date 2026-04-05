@@ -1,6 +1,4 @@
-/**
- * Session Utilities
- */
+
 
 const SESSION_DEBUG = {
     log: (title, data) => console.log(`%c[Debug] ${title}`, 'color: #9d4edd; font-weight: bold;', data),
@@ -112,6 +110,6 @@ const SESSION_DEBUG = {
     }
 };
 
-// Auto-export to window for easy access
+
 window.SESSION_DEBUG = SESSION_DEBUG;
 console.log('%c💡 Tip: Run SESSION_DEBUG.runAll() to check everything', 'color: #9d4edd; font-style: italic;');

@@ -1,6 +1,4 @@
-/**
- * OAuth Session Manager
- */
+
 
 console.log('%c🔐 Session Manager Loaded', 'color: #9d4edd; font-size: 14px; font-weight: bold;');
 

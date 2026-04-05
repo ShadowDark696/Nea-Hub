@@ -1,4 +1,4 @@
-// Command Management Module
+
 
 const COMMAND_CATEGORIES = {
   music: {
@@ -118,7 +118,7 @@ const COMMAND_CATEGORIES = {
   }
 };
 
-// Ejecutar comando
+
 async function executeCommand(category, commandName, params) {
   const endpoint = `/api/commands/${category}/${commandName}`;
 
@@ -143,6 +143,6 @@ async function executeCommand(category, commandName, params) {
   }
 }
 
-// Exportar para uso en dashboard
+
 window.COMMAND_CATEGORIES = COMMAND_CATEGORIES;
 window.executeCommand = executeCommand;

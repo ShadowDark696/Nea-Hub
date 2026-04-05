@@ -1,11 +1,11 @@
-// DASHBOARD INTEGRATION - Agregar comandos al sidebar
-// Este script se incluye en dashboard.html
 
-// Inyectar panel de comandos en el dashboard
+
+
+
 function initializeCommandsPanel() {
   const sidebar = document.getElementById('sidebar-nav');
 
-  // Agregar sección de comandos
+  
   const commandSection = document.createElement('div');
   commandSection.innerHTML = `
     <div class="text-xs text-purple-500/70 hacker-font mt-6 mb-2 pl-2">⚙️ CONTROL DE COMANDOS</div>
@@ -53,7 +53,7 @@ function initializeCommandsPanel() {
 
   sidebar.appendChild(commandSection);
 
-  // Event listeners
+  
   document.querySelectorAll('.menu-item[data-target^="mod-"]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
@@ -63,15 +63,15 @@ function initializeCommandsPanel() {
   });
 }
 
-// Cargar módulo de comandos
+
 async function loadCommandModule(module) {
   const mainContent = document.getElementById('main-content') || document.querySelector('main');
 
-  // Fetch del panel HTML
+  
   const response = await fetch('commands-panel.html');
   const html = await response.text();
 
-  // Filtrar por categoría
+  
   const categoryMap = {
     'mod-music': 'music',
     'mod-roles': 'roles',
@@ -85,7 +85,7 @@ async function loadCommandModule(module) {
 
   mainContent.innerHTML = html;
 
-  // Inicializar panel con categoría
+  
   setTimeout(() => {
     const category = categoryMap[module] || 'all';
     if (window.renderCommands) {
@@ -94,7 +94,7 @@ async function loadCommandModule(module) {
   }, 100);
 }
 
-// AUTO-INIT al cargar dashboard
+
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('sidebar-nav')) {
     initializeCommandsPanel();

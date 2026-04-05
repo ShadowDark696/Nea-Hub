@@ -1,7 +1,7 @@
-<!-- COMMAND CONTROL PANEL - 8 CATEGORÍAS -->
+
 <div id="commands-panel" class="w-full h-full flex flex-col bg-black/70 backdrop-blur">
 
-  <!-- HEADER COMANDOS -->
+  
   <div class="border-b border-purple-500/30 px-6 py-4 flex items-center justify-between bg-black/50">
     <h2 class="text-2xl font-black text-white hacker-font">⚙️ CONTROL DE COMANDOS</h2>
     <div class="flex gap-2">
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <!-- TABS CATEGORIAS -->
+  
   <div class="border-b border-purple-500/20 flex gap-1 px-4 py-3 overflow-x-auto bg-black/30 scrollbar-h">
     <button class="cmd-tab px-4 py-2 text-sm rounded font-bold border border-purple-500/30 hover:bg-purple-500/20 active" data-category="all">
       📋 Todo (66)
@@ -41,22 +41,22 @@
     </button>
   </div>
 
-  <!-- CONTENIDO COMANDOS -->
+  
   <div id="commands-content" class="flex-1 overflow-y-auto scrollbar p-6">
     <div id="commands-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      <!-- Se llenará con JavaScript -->
+      
     </div>
   </div>
 
 </div>
 
-<!-- MODAL EJECUCIÓN COMANDO -->
+
 <div id="cmd-modal" class="fixed inset-0 bg-black/70 backdrop-blur flex items-center justify-center z-50 hidden">
   <div class="bg-black/90 border border-purple-500/50 rounded-xl p-8 max-w-md w-full mx-4 animate-slide-up">
     <h3 id="cmd-modal-title" class="text-xl font-bold text-white mb-4 hacker-font">Ejecutar Comando</h3>
 
     <div id="cmd-params-container" class="space-y-3 mb-6">
-      <!-- Parámetros dinámicos -->
+      
     </div>
 
     <div class="flex gap-3">
@@ -68,7 +68,7 @@
       </button>
     </div>
 
-    <!-- Resultado -->
+    
     <div id="cmd-result" class="mt-4 p-3 rounded bg-black/50 border border-green-500/30 hidden max-h-48 overflow-y-auto">
       <p class="text-xs text-green-400 hacker-font"><i class="fa-solid fa-circle-check mr-2"></i>Comando ejecutado:</p>
       <pre id="cmd-result-text" class="text-xs text-gray-300 mt-2 whitespace-pre-wrap"></pre>
@@ -132,7 +132,7 @@
 
 <script src="commands-manager.js"></script>
 <script>
-// RENDERIZAR COMANDOS
+
 function renderCommands(category = 'all') {
   const grid = document.getElementById('commands-grid');
   grid.innerHTML = '';
@@ -160,7 +160,7 @@ function renderCommands(category = 'all') {
   });
 }
 
-// MODAL COMANDOS
+
 let selectedCommand = null;
 
 function openCommandModal(cmd) {
@@ -182,7 +182,7 @@ function openCommandModal(cmd) {
   document.getElementById('cmd-modal').classList.remove('hidden');
 }
 
-// EJECUTAR COMANDO
+
 document.getElementById('cmd-execute-btn').addEventListener('click', async () => {
   if (!selectedCommand) return;
 
@@ -203,13 +203,13 @@ document.getElementById('cmd-execute-btn').addEventListener('click', async () =>
   }
 });
 
-// CERRAR MODAL
+
 document.getElementById('cmd-modal-close').addEventListener('click', () => {
   document.getElementById('cmd-modal').classList.add('hidden');
   selectedCommand = null;
 });
 
-// TABS
+
 document.querySelectorAll('.cmd-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.cmd-tab').forEach(t => t.classList.remove('active'));
@@ -218,7 +218,7 @@ document.querySelectorAll('.cmd-tab').forEach(tab => {
   });
 });
 
-// BUSCAR
+
 document.getElementById('cmd-search').addEventListener('input', (e) => {
   const search = e.target.value.toLowerCase();
   document.querySelectorAll('.cmd-card').forEach(card => {
@@ -228,6 +228,6 @@ document.getElementById('cmd-search').addEventListener('input', (e) => {
   });
 });
 
-// INICIAL
+
 renderCommands('all');
 </script>

@@ -118,7 +118,7 @@
             box-shadow: 0 0 15px var(--neon-purple);
         }
 
-        /* Animaciones Clave */
+        
         .animate-fade-in {
             animation: fadeIn 0.6s ease forwards;
         }
@@ -196,7 +196,7 @@
             }
         }
 
-        /* Estilos Premium V9.8 */
+        
         .member-card {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(157, 78, 221, 0.2);
@@ -1497,7 +1497,7 @@
                             </div>
                         </div>
 
-                        <!-- Selector de usuario + buscar -->
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label class="text-xs text-rose-400 hacker-font mb-1 block">SELECCIONAR MIEMBRO</label>
@@ -1527,7 +1527,7 @@
                             </div>
                         </div>
 
-                        <!-- Aplicar nuevo warn -->
+                        
                         <div class="bg-rose-900/10 p-4 rounded border border-rose-500/20 mb-4">
                             <h3 class="text-sm text-rose-300 hacker-font mb-3"><i
                                     class="fa-solid fa-plus-circle mr-2"></i>APLICAR NUEVA INFRACCIÓN</h3>
@@ -1542,7 +1542,7 @@
                                 de aplicar.</p>
                         </div>
 
-                        <!-- Lista de warns -->
+                        
                         <div class="flex items-center justify-between mb-2">
                             <h3 class="text-sm text-rose-300 hacker-font"><i
                                     class="fa-solid fa-list mr-2"></i>INFRACCIONES REGISTRADAS — <span id="warns_count"
@@ -1653,7 +1653,7 @@
                             </div>
                         </div>
 
-                        <!-- Estado y canal de logs -->
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div class="bg-amber-900/20 p-4 rounded border border-amber-500/20">
                                 <label class="text-xs text-amber-300 hacker-font block mb-2">ESTADO DEL SISTEMA</label>
@@ -1689,7 +1689,7 @@
                             </div>
                         </div>
 
-                        <!-- Añadir nueva regla -->
+                        
                         <div class="bg-amber-900/10 p-4 rounded border border-amber-500/20 mb-4">
                             <h3 class="text-sm text-amber-300 hacker-font mb-3"><i
                                     class="fa-solid fa-plus mr-2"></i>AGREGAR NUEVA REGLA</h3>
@@ -1726,7 +1726,7 @@
                             </div>
                         </div>
 
-                        <!-- Lista de reglas actuales -->
+                        
                         <div>
                             <h3 class="text-sm text-amber-300 hacker-font mb-2"><i
                                     class="fa-solid fa-list mr-2"></i>REGLAS CONFIGURADAS</h3>
@@ -4755,17 +4755,17 @@
             const cid = containerId.replace('#', '');
             document.querySelectorAll(`#${cid} .member-card`).forEach(c => c.classList.remove('selected'));
             cardEl.classList.add('selected');
-            // Auto-sync bureau member → search id
+            
             if (hiddenId === '#bureau_member_select') {
                 const searchId = document.getElementById('bureau_search_id');
                 if (searchId) searchId.value = value;
             }
-            // Auto-sync warns member → warns search id
+            
             if (hiddenId === '#warns_member_select') {
                 const warnSearchId = document.getElementById('warns_search_id');
                 if (warnSearchId) warnSearchId.value = value;
             }
-            // Auto-sync seniority role name
+            
             if (hiddenId === '#sen_new_role_id') {
                 const role = cachedRoles.find(r => r.id === value);
                 const nameEl = document.getElementById('sen_new_role_name');
@@ -5566,7 +5566,7 @@
             const r = await api('/api/bot/eval', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: `const Warn=require('./src/models/WarnModel');const w=new Warn({guildId:'${currentGuildId}',userId:'${userId}',moderatorId:'Dashboard',reason:${JSON.stringify(reason)},date:new Date()});await w.save();'WARN_SAVED:'+w._id` }) });
             if (r && r.output && r.output.startsWith('WARN_SAVED')) {
                 document.getElementById('warns_reason').value = '';
-                // Reload warns list
+                
                 document.getElementById('btn_warns_search').click();
                 return { _msg: 'Warn aplicado a ' + memberName };
             }
@@ -5908,7 +5908,7 @@ ${imgs}${stickers}
             return r ? { _msg: 'Escalamiento de warns guardado' } : { error: 'Fallo al guardar escalamiento' };
         }));
 
-        // Global variable to hold seniority rules while editing
+        
         let seniorityRules = [];
 
         function renderSeniorityRules() {
@@ -6081,7 +6081,7 @@ ${imgs}${stickers}
             seniorityRules.push({ roleId, roleName, daysRequired: days, emoji });
             seniorityRules.sort((a, b) => a.daysRequired - b.daysRequired);
             renderSeniorityRules();
-            // Reset form
+            
             document.getElementById('sen_new_days').value = '';
             document.getElementById('sen_new_role_search').value = '';
             document.getElementById('sen_new_role_id').value = '';
@@ -6102,7 +6102,7 @@ ${imgs}${stickers}
         wireBtn('btn_seniority_run', () => doAction('btn_seniority_run', async () => {
             const r = await api('/api/bot/eval', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: `const SeniorityJob=require('./src/jobs/seniorityJob');await SeniorityJob.runForGuild('${currentGuildId}');'SENIORITY_RUN_OK'` }) });
             if (r && r.output && r.output.includes('SENIORITY_RUN_OK')) return { _msg: 'Antigüedad ejecutada correctamente' };
-            // Even if eval path failed, try direct trigger
+            
             return { _msg: 'Comando ejecutado (verifica logs del bot)', _warn: r?.output || 'Sin output' };
         }));
 

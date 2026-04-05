@@ -115,7 +115,7 @@ function toast(msg, isError = false) {
     setTimeout(() => { t.classList.add('hidden'); t.classList.remove('toast-enter') }, 4000)
 }
 
-// --- LISTAS PREMIUM V10 (Avatars & Visual Select) ---
+
 function renderPremiumList(containerId, members, hiddenInputId, filter = '') {
     const container = document.querySelector(containerId)
     if (!container) return
@@ -150,7 +150,7 @@ function renderPremiumList(containerId, members, hiddenInputId, filter = '') {
     }
 }
 
-// Render premium role list with color badges
+
 function renderPremiumRoleList(containerId, roles, hiddenInputId, filter = '') {
     const container = document.querySelector(containerId)
     if (!container) return
@@ -222,7 +222,7 @@ const handleAction = async (endpoint, payload, okMsg) => {
     finally { btn.innerHTML = originalTxt }
 }
 
-// ARRANQUE (BOOT MODE)
+
 async function loadInitialData() {
     try {
         const user = await api('/api/user')
@@ -243,7 +243,7 @@ async function loadInitialData() {
     }
 }
 
-// FASE 1: GRID PRINCIPAL DE SERVIDORES
+
 async function loadSelectorGrid() {
     $('#grid-container').innerHTML = `<div class="col-span-full h-48 flex items-center justify-center text-purple-500"><i class="fa-solid fa-spinner fa-spin text-4xl"></i><span class="ml-4 hacker-font text-xl">SINCRONIZANDO V10 DISCORD...</span></div>`
     const data = await api('/api/guilds')
@@ -288,7 +288,7 @@ $('#search-grid').addEventListener('input', e => {
 $('#refresh-grid').addEventListener('click', loadSelectorGrid)
 
 
-// FASE 2: ENTRAR AL DASHBOARD (SPA ROUTER)
+
 function enterDashboard(sv) {
     currentGuildId = sv.id
 
@@ -313,7 +313,7 @@ async function fetchRoles() {
         if (data && data.roles) {
             cachedRoles = data.roles.filter(r => r.name !== '@everyone').sort((a, b) => b.position - a.position)
 
-            // Populate all role selects
+            
             const roleSelects = ['role_role_select', 'autorole_role_select']
             roleSelects.forEach(id => {
                 const el = document.getElementById(id)
@@ -325,7 +325,7 @@ async function fetchRoles() {
                 })
             })
 
-            // Render premium role list in roles panel
+            
             if (document.querySelector('#roles_list_display')) {
                 renderPremiumRoleList('#roles_list_display', cachedRoles, '#roles_view_select')
             }
@@ -341,7 +341,7 @@ async function fetchChannels() {
         if (data && data.channels) {
             cachedChannels = data.channels
 
-            // Populate ALL channel selects
+            
             const channelSelects = ['troll_channel_select', 'log_channel_select', 'broadcast_channel_select', 'sug_channel_select', 'lock_channel_select', 'embed_channel']
             channelSelects.forEach(id => {
                 const el = document.getElementById(id)
@@ -363,7 +363,7 @@ async function fetchMembers() {
         if (data && data.members) {
             cachedMembers = data.members
 
-            // V10: Render premium lists for ALL member selectors
+            
             const memberPanels = [
                 { list: '#role_user_list', input: '#role_user_select', search: '#role_user_search' },
                 { list: '#ban_user_list', input: '#ban_user_select', search: '#ban_user_search' },
@@ -385,7 +385,7 @@ async function fetchMembers() {
     }
 }
 
-// Botón Atrás
+
 $('#btn-back').onclick = () => {
     currentGuildId = null
     $('#view-dashboard').classList.add('hidden')
@@ -393,7 +393,7 @@ $('#btn-back').onclick = () => {
     $('#hw-status').classList.add('hidden')
 }
 
-// WIDGET HW
+
 function loadHWStatus() {
     api('/api/bot/status').then(st => {
         if (st) {
@@ -405,7 +405,7 @@ function loadHWStatus() {
 }
 
 
-// SIDEBAR ROUTING
+
 document.querySelectorAll('.menu-item').forEach(btn => {
     btn.addEventListener('click', (e) => {
         document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'))
@@ -423,11 +423,11 @@ function openWorkPanel(id) {
 }
 
 
-//================================================
-// 3. EVENT LISTENERS (LOGICA DE API) - V10 FIXED
-//================================================
 
-// CORE SETTINGS
+
+
+
+
 async function fetchCoreSettings() {
     if (!currentGuildId) return
     const data = await api('/api/guilds/' + currentGuildId + '/settings')
@@ -436,13 +436,13 @@ async function fetchCoreSettings() {
     $('#inp_prefix').value = s.prefix || '/'
     $('#inp_mod').checked = s.modEnabled !== false
 
-    // V10: Set log channel select if available
+    
     const logSelect = $('#log_channel_select')
     if (logSelect && s.logChannel) {
         setTimeout(() => { logSelect.value = s.logChannel }, 500)
     }
 
-    // V10: Resolve creator names
+    
     const creadoresList = $('#creadoresList')
     creadoresList.innerHTML = ''
     if (data.creadores && data.creadores.length) {
@@ -453,7 +453,7 @@ async function fetchCoreSettings() {
            <button onclick="removeCreador('${uid}')" class="text-red-400 hover:text-red-300 opacity-0 group-hover:opacity-100 transition ml-1" title="Eliminar"><i class="fa-solid fa-xmark"></i></button>`
             creadoresList.appendChild(label)
 
-            // Resolve username via API
+            
             api(`/api/users/${uid}`).then(user => {
                 if (user && user.username) {
                     const nameEl = label.querySelector('.creator-name')
@@ -468,7 +468,7 @@ async function fetchCoreSettings() {
     }
 }
 
-// Remove creator
+
 window.removeCreador = async (uid) => {
     if (!confirm(`¿Eliminar creador ${uid}?`)) return
     await api('/api/creadores/' + currentGuildId, {
@@ -512,7 +512,7 @@ $('#addCreador').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-plus mr-2"></i>INYECTAR'
 }
 
-// ROLES (PRIVILEGIOS)
+
 $('#btn_do_role_add').onclick = () => {
     const userId = $('#role_user_select').value
     const roleId = $('#role_role_select').value
@@ -526,28 +526,28 @@ $('#btn_do_role_rem').onclick = () => {
     handleAction(`/api/guilds/${currentGuildId}/mod/roles`, { action: 'remove', userId, roleId }, 'PRIVILEGIO REVOCADO POR LA FUERZA')
 }
 
-// BAN
+
 $('#btn_do_ban').onclick = () => {
     const userId = $('#ban_user_select').value
     if (!userId) return toast('SELECCIONA UN USUARIO', true)
     handleAction(`/api/guilds/${currentGuildId}/mod/execute`, { action: 'ban', userId, reason: $('#ban_reason').value }, 'EL SUJETO HA SIDO ERRADICADO')
 }
 
-// MUTE/TIMEOUT (V10: Now uses premium list)
+
 $('#btn_do_mute').onclick = () => {
     const userId = $('#mute_user_select').value
     if (!userId) return toast('SELECCIONA UN USUARIO', true)
     handleAction(`/api/guilds/${currentGuildId}/mod/execute`, { action: 'timeout', userId, duration: $('#mute_time').value }, 'TRACTO VOCAL CERCENADO (TIMEOUT)')
 }
 
-// TROLL / SAY
+
 $('#btn_do_say').onclick = () => {
     const channelId = $('#troll_channel_select').value
     if (!channelId) return toast('SELECCIONA UN CANAL PRIMERO', true)
     handleAction(`/api/guilds/${currentGuildId}/troll/say`, { channelId, message: $('#troll_payload').value }, 'PAYLOAD ENVIADO SIN DEJAR RASTRO')
 }
 
-// ECONOMÍA V10
+
 const ecoDo = (action) => {
     const userId = $('#eco_user_select').value
     const amount = $('#eco_amount').value
@@ -560,9 +560,9 @@ $('#btn_do_eco_rem').onclick = () => ecoDo('remove')
 $('#btn_do_eco_set').onclick = () => ecoDo('set')
 $('#btn_do_eco_wipe').onclick = () => { if (confirm('¿WIPE TOTAL DE ESTE USUARIO?')) ecoDo('reset') }
 
-// ==========================================
-// MÓDULO DIOS (GOD MODE APIs) - V10 FIXED
-// ==========================================
+
+
+
 
 $('#btn_god_eval').onclick = async (e) => {
     const code = $('#god_eval_code').value
@@ -583,7 +583,7 @@ $('#btn_god_eval').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-play mr-2"></i>INYECTAR RUNTIME'
 }
 
-// V10: BROADCAST - Now with channel selection
+
 $('#btn_god_bc').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>ATRAVESANDO MATRIX...'
     try {
@@ -591,7 +591,7 @@ $('#btn_god_bc').onclick = async (e) => {
         const payload = $('#god_bc_payload').value
 
         if (channelId) {
-            // Send to specific channel
+            
             const data = await api(`/api/guilds/${currentGuildId}/troll/say`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -599,7 +599,7 @@ $('#btn_god_bc').onclick = async (e) => {
             })
             if (data) toast('MENSAJE ENVIADO AL CANAL ESPECIFICADO')
         } else {
-            // Broadcast to all
+            
             const data = await api('/api/bot/broadcast', {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ payload })
@@ -613,9 +613,9 @@ $('#btn_god_bc').onclick = async (e) => {
 $('#btn_god_eco_mass').onclick = () => handleAction('/api/bot/economy/mass', { amount: $('#god_eco_amount').value }, 'FONDOS INYECTADOS MUNDIALMENTE')
 $('#btn_god_eco_reset').onclick = () => { if (confirm('⚠️ ¿RESETEAR TODA LA ECONOMÍA A $0?')) handleAction('/api/bot/economy/mass', { wipe: true }, '💥 FIN DE LA ECONOMÍA') }
 
-// ==========================================
-// V10 - REGISTRO CIVIL / BUROCRACIA (FIXED AUTH)
-// ==========================================
+
+
+
 
 let bureauCurrentLoadedId = null
 
@@ -662,7 +662,7 @@ $('#btn_bureau_search').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-2"></i>BUSCAR CÉDULA'
 }
 
-// EDITOR DE CÉDULA V10
+
 $('#btn_bureau_edit').onclick = () => {
     const d = window.lastLoadedCedula
     if (!d) return
@@ -719,11 +719,11 @@ $('#btn_bureau_delete').onclick = async () => {
     bureauCurrentLoadedId = null
 }
 
-// ==========================================
-// V10 - SISTEMAS MASIVOS (FIXED AUTH)
-// ==========================================
 
-// 1. Prisión (V10: premium list + user select)
+
+
+
+
 $('#btn_prison_search').onclick = async (e) => {
     const targetId = ($('#prison_user_select')?.value || $('#prison_search_id')?.value || '').trim()
     if (!targetId || !currentGuildId) return toast('FALTAN DATOS O SERVIDOR NO SELECCIONADO', true)
@@ -754,7 +754,7 @@ $('#btn_prison_free').onclick = async () => {
     window._prisonCurrentId = null
 }
 
-// 2. Merchant Shop
+
 $('#btn_shop_add').onclick = async () => {
     if (!currentGuildId) return toast('SELECCIONA UN SERVER', true)
     const payload = {
@@ -789,13 +789,13 @@ $('#btn_shop_fetch').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>REFRESCAR BBDD'
 }
 
-// 3. Arcade
+
 $('#btn_arcade_reset').onclick = async () => {
     if (!confirm('⚠️ ¿Borrar TODOS los scores de minijuegos?')) return
     await handleAction(`/api/bot/games/reset`, {}, 'PUNTUACIONES ARCADE ANIQUILADAS')
 }
 
-// 4. Auto Rol (V10: Categories)
+
 $('#btn_autorole_save').onclick = async () => {
     if (!currentGuildId) return toast('SELECCIONA UN SERVER', true)
     const roleId = $('#autorole_role_select').value
@@ -803,7 +803,7 @@ $('#btn_autorole_save').onclick = async () => {
     await handleAction(`/api/bot/autorole/${currentGuildId}`, { roleId }, 'AUTO-ROL DE BIENVENIDA CONFIGURADO')
 }
 
-// 5. Warns (V10: FIXED AUTH)
+
 $('#btn_warns_search').onclick = async (e) => {
     const targetId = $('#warns_search_id').value.trim()
     if (!targetId || !currentGuildId) return toast('FALTAN DATOS', true)
@@ -828,7 +828,7 @@ $('#btn_warns_search').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-eye mr-2"></i>ESCANEAR EXPEDIENTE'
 }
 
-// 6. Sugerencias (V10: FIXED AUTH + channel config)
+
 $('#btn_sug_fetch').onclick = async (e) => {
     if (!currentGuildId) return toast('SELECCIONA UN SERVER', true)
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Cargando...'
@@ -856,9 +856,9 @@ $('#btn_sug_fetch').onclick = async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>Cargar Buzón'
 }
 
-// ==========================================
-// ROLE SEARCH FILTER
-// ==========================================
+
+
+
 document.addEventListener('input', e => {
     if (e.target.classList.contains('role-search-input')) {
         const query = e.target.value.toLowerCase()
@@ -886,18 +886,18 @@ window.delSug = async (sugId) => {
     } catch (e) { toast('Error RED', true) }
 }
 
-// ==========================================
-// V10.2 - KICK, DM, FORZAR NICK
-// ==========================================
 
-// KICK
+
+
+
+
 $('#btn_do_kick')?.addEventListener('click', () => {
     const userId = $('#kick_user_select').value
     if (!userId) return toast('SELECCIONA UN USUARIO', true)
     handleAction(`/api/guilds/${currentGuildId}/mod/execute`, { action: 'kick', userId, reason: $('#kick_reason').value }, 'EL SUJETO HA SIDO EXPULSADO 🚪')
 })
 
-// DM
+
 $('#btn_do_dm')?.addEventListener('click', async (e) => {
     const userId = $('#dm_user_select').value
     const message = $('#dm_message').value
@@ -915,7 +915,7 @@ $('#btn_do_dm')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-paper-plane mr-2"></i>ENVIAR DM'
 })
 
-// FORZAR NICK
+
 $('#btn_do_nick')?.addEventListener('click', () => {
     const userId = $('#nick_user_select').value
     const nickname = $('#nick_value').value
@@ -929,11 +929,11 @@ $('#btn_do_nick_remove')?.addEventListener('click', () => {
     handleAction(`/api/guilds/${currentGuildId}/mod/nickname`, { userId, nickname: '', action: 'remove' }, 'APODO LIBERADO ✅')
 })
 
-// ==========================================
-// V10 NUEVOS MÓDULOS - LÓGICA COMPLETA
-// ==========================================
 
-// --- WARN ESCALATION ---
+
+
+
+
 $('#btn_esc_save')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return toast('SELECCIONA UN SERVER', true)
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>GUARDANDO...'
@@ -951,7 +951,7 @@ $('#btn_esc_save')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-floppy-disk mr-2"></i>GUARDAR ESCALAMIENTO'
 })
 
-// --- SENIORITY ---
+
 $('#btn_seniority_fetch')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>CARGANDO...'
@@ -972,7 +972,7 @@ $('#btn_seniority_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>CARGAR CONFIGURACIÓN ACTUAL'
 })
 
-// --- CHANNEL LOCK ---
+
 $('#btn_lock_channel')?.addEventListener('click', () => {
     const channelId = $('#lock_channel_select').value
     if (!channelId) return toast('SELECCIONA UN CANAL', true)
@@ -984,7 +984,7 @@ $('#btn_unlock_channel')?.addEventListener('click', () => {
     handleAction(`/api/guilds/${currentGuildId}/mod/channel-lock`, { channelId, action: 'unlock' }, 'CANAL DESBLOQUEADO 🔓')
 })
 
-// --- WHITELIST ---
+
 $('#btn_wl_fetch')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>CARGANDO...'
@@ -1008,7 +1008,7 @@ $('#btn_wl_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>VER WHITELIST ACTUAL'
 })
 
-// --- ESTADÍSTICAS ---
+
 $('#btn_stats_fetch')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>CARGANDO...'
@@ -1040,7 +1040,7 @@ $('#btn_stats_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>CARGAR ESTADÍSTICAS'
 })
 
-// --- AUDIT LOG ---
+
 $('#btn_audit_fetch')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>...'
@@ -1063,7 +1063,7 @@ $('#btn_audit_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>Cargar'
 })
 
-// --- BOT INFO ---
+
 $('#btn_botinfo_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>CARGANDO...'
     try {
@@ -1083,7 +1083,7 @@ $('#btn_botinfo_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>CARGAR INFO'
 })
 
-// --- EMBED CONSTRUCTOR (with live preview) ---
+
 const embedInputs = ['embed_title', 'embed_desc', 'embed_color', 'embed_footer']
 embedInputs.forEach(id => {
     document.getElementById(id)?.addEventListener('input', () => {
@@ -1118,7 +1118,7 @@ $('#btn_embed_send')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-paper-plane mr-2"></i>ENVIAR EMBED AL CANAL'
 })
 
-// --- NOTIFICACIONES STREAM ---
+
 $('#btn_notif_fetch')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>CARGANDO...'
@@ -1140,7 +1140,7 @@ $('#btn_notif_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>VER NOTIFICACIONES CONFIGURADAS'
 })
 
-// --- RECORDATORIOS ---
+
 $('#btn_reminders_fetch')?.addEventListener('click', async (e) => {
     if (!currentGuildId) return
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>CARGANDO...'
@@ -1163,7 +1163,7 @@ $('#btn_reminders_fetch')?.addEventListener('click', async (e) => {
     e.target.innerHTML = '<i class="fa-solid fa-rotate mr-2"></i>CARGAR RECORDATORIOS'
 })
 
-// V10: Populate additional channel selects when channels are fetched
+
 const originalFetchChannels = fetchChannels
 window._populateExtraChannelSelects = () => {
     const extraSelects = ['lock_channel_select', 'embed_channel']
@@ -1176,5 +1176,5 @@ window._populateExtraChannelSelects = () => {
         })
     })
 }
-// Override fetchChannels to also populate extra selects
+
 const _origFetchChannels = fetchChannels.bind ? fetchChannels : null
