@@ -6255,6 +6255,7 @@ ${imgs}${stickers}
                 document.getElementById('clear_channel_list').innerHTML = (clearChannels.filter(c => c.name.toLowerCase().includes(q)) || []).map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-red-900/20 rounded text-red-200 text-xs" onclick="document.getElementById('clear_channel_select').value='${c.id}'; document.getElementById('clear_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
             });
             const loadClear = async () => {
+                if (!currentGuildId) return;
                 const r = await api(`/api/bot/channels/${currentGuildId}`);
                 clearChannels = (r && r.channels) ? r.channels.filter(c => c.type === 0) : [];
                 document.getElementById('clear_channel_list').innerHTML = clearChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-red-900/20 rounded text-red-200 text-xs" onclick="document.getElementById('clear_channel_select').value='${c.id}'; document.getElementById('clear_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
@@ -6297,6 +6298,7 @@ ${imgs}${stickers}
                 document.getElementById('mute_channel_list').innerHTML = (muteChannels.filter(c => c.name.toLowerCase().includes(q)) || []).map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-orange-900/20 rounded text-orange-200 text-xs" onclick="document.getElementById('mute_channel_select').value='${c.id}'; document.getElementById('mute_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
             });
             const loadMute = async () => {
+                if (!currentGuildId) return;
                 const r = await api(`/api/bot/channels/${currentGuildId}`);
                 muteChannels = (r && r.channels) ? r.channels.filter(c => c.type === 0) : [];
                 document.getElementById('mute_channel_list').innerHTML = muteChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-orange-900/20 rounded text-orange-200 text-xs" onclick="document.getElementById('mute_channel_select').value='${c.id}'; document.getElementById('mute_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
@@ -6323,6 +6325,7 @@ ${imgs}${stickers}
             let unmuteUsers = [];
 
             const loadUnmuteData = async () => {
+                if (!currentGuildId) return;
                 const rCh = await api(`/api/bot/channels/${currentGuildId}`);
                 unmuteChannels = (rCh && rCh.channels) ? rCh.channels.filter(c => c.type === 0) : [];
                 const rU = await api(`/api/bot/members/${currentGuildId}`);
@@ -6380,6 +6383,7 @@ ${imgs}${stickers}
             });
 
             const loadSnipeAdv = async () => {
+                if (!currentGuildId) return;
                 const rCh = await api(`/api/bot/channels/${currentGuildId}`);
                 snipeAdvChannels = (rCh && rCh.channels) ? rCh.channels.filter(c => c.type === 0) : [];
                 document.getElementById('snipe_adv_channel_list').innerHTML = snipeAdvChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-purple-900/20 rounded text-purple-200 text-xs" onclick="document.getElementById('snipe_adv_channel_select').value='${c.id}';">#${c.name}</div>`).join('');
@@ -6435,6 +6439,7 @@ ${imgs}${stickers}
             });
 
             const loadCryptoUsers = async () => {
+                if (!currentGuildId) return;
                 const r = await api(`/api/bot/members/${currentGuildId}`);
                 cryptoUsers = (r && r.members) ? r.members : [];
                 document.getElementById('crypto_user_list').innerHTML = cryptoUsers.slice(0, 20).map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-yellow-900/20 rounded text-yellow-200 text-xs" onclick="document.getElementById('crypto_user_select').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
