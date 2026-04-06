@@ -4669,6 +4669,9 @@
                     { list: '#snipe_channel_list', input: '#snipe_channel_select', search: '#snipe_channel_search' },
                     { list: '#games_channel_list', input: '#games_channel_select', search: '#games_channel_search' },
                     { list: '#anime_channel_list', input: '#anime_channel_select', search: '#anime_channel_search' },
+                    { list: '#clear_channel_list', input: '#clear_channel_select', search: '#clear_channel_search' },
+                    { list: '#mute_channel_list', input: '#mute_channel_select', search: '#mute_channel_search' },
+                    { list: '#snipe_adv_channel_list', input: '#snipe_adv_channel_select', search: '#snipe_adv_channel_search' },
                 ];
 
                 channelPanels.forEach(p => {
@@ -4704,6 +4707,8 @@
                     { list: '#react_user_list', input: '#react_user_select', search: '#react_user_search' },
                     { list: '#wl_user_list', input: '#wl_user_select', search: '#wl_user_search' },
                     { list: '#audit_user_list', input: '#audit_user_select', search: '#audit_user_search' },
+                    { list: '#snipe_adv_user_list', input: '#snipe_adv_user_select', search: '#snipe_adv_user_search' },
+                    { list: '#crypto_user_list', input: '#crypto_user_select', search: '#crypto_user_search' },
                 ];
 
                 memberPanels.forEach(p => {
@@ -6249,19 +6254,7 @@ ${imgs}${stickers}
         }));
 
         (() => {
-            let clearChannels = [];
-            document.getElementById('clear_channel_search').addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase();
-                document.getElementById('clear_channel_list').innerHTML = (clearChannels.filter(c => c.name.toLowerCase().includes(q)) || []).map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-red-900/20 rounded text-red-200 text-xs" onclick="document.getElementById('clear_channel_select').value='${c.id}'; document.getElementById('clear_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
-            });
-            const loadClear = async () => {
-                if (!currentGuildId) return;
-                const r = await api(`/api/bot/channels/${currentGuildId}`);
-                clearChannels = (r && r.channels) ? r.channels.filter(c => c.type === 0) : [];
-                document.getElementById('clear_channel_list').innerHTML = clearChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-red-900/20 rounded text-red-200 text-xs" onclick="document.getElementById('clear_channel_select').value='${c.id}'; document.getElementById('clear_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
-            };
-            document.addEventListener('panelChange', (e) => { if (e.detail.id === 'mod-clear') loadClear(); });
-            loadClear();
+            // Clear panel channels loaded centrally by fetchChannels()
         })();
 
         wireBtn('btn_clear_execute', () => doAction('btn_clear_execute', async () => {
@@ -6292,19 +6285,7 @@ ${imgs}${stickers}
         }));
 
         (() => {
-            let muteChannels = [];
-            document.getElementById('mute_channel_search').addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase();
-                document.getElementById('mute_channel_list').innerHTML = (muteChannels.filter(c => c.name.toLowerCase().includes(q)) || []).map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-orange-900/20 rounded text-orange-200 text-xs" onclick="document.getElementById('mute_channel_select').value='${c.id}'; document.getElementById('mute_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
-            });
-            const loadMute = async () => {
-                if (!currentGuildId) return;
-                const r = await api(`/api/bot/channels/${currentGuildId}`);
-                muteChannels = (r && r.channels) ? r.channels.filter(c => c.type === 0) : [];
-                document.getElementById('mute_channel_list').innerHTML = muteChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-orange-900/20 rounded text-orange-200 text-xs" onclick="document.getElementById('mute_channel_select').value='${c.id}'; document.getElementById('mute_channel_select').dataset.name='${c.name}';">#${c.name}</div>`).join('');
-            };
-            document.addEventListener('panelChange', (e) => { if (e.detail.id === 'mod-mute-channel') loadMute(); });
-            loadMute();
+            // Mute panel channels loaded centrally by fetchChannels()
         })();
 
         wireBtn('btn_mute_channel', () => doAction('btn_mute_channel', async () => {
@@ -6321,16 +6302,8 @@ ${imgs}${stickers}
             const unmuteScope = document.getElementById('unmute_scope');
             const unmuteContainer = document.getElementById('unmute_select_container');
             const unmuteTarget = document.getElementById('unmute_target');
-            let unmuteChannels = [];
-            let unmuteUsers = [];
 
-            const loadUnmuteData = async () => {
-                if (!currentGuildId) return;
-                const rCh = await api(`/api/bot/channels/${currentGuildId}`);
-                unmuteChannels = (rCh && rCh.channels) ? rCh.channels.filter(c => c.type === 0) : [];
-                const rU = await api(`/api/bot/members/${currentGuildId}`);
-                unmuteUsers = (rU && rU.members) ? rU.members : [];
-            };
+            const loadUnmuteData = () => { /* data loaded centrally by fetchChannels() / fetchMembers() */ };
 
             unmuteScope.addEventListener('change', (e) => {
                 const scope = e.target.value;
@@ -6338,19 +6311,14 @@ ${imgs}${stickers}
                     unmuteContainer.innerHTML = '<div class="text-[10px] text-lime-300/50 p-2 text-center">Desmutear todos en el servidor</div>';
                     unmuteTarget.value = 'global';
                 } else if (scope === 'channel') {
-                    unmuteContainer.innerHTML = `<div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i><input type="text" id="unmute_channel_search" placeholder="Filtrar canal..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40"></div><div id="unmute_channel_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"><div class="text-xs text-lime-300/50 p-3 text-center">Cargando...</div></div>`;
-                    document.getElementById('unmute_channel_search').addEventListener('input', (evt) => {
-                        const q = evt.target.value.toLowerCase();
-                        document.getElementById('unmute_channel_list').innerHTML = (unmuteChannels.filter(c => c.name.toLowerCase().includes(q)) || []).map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-lime-900/20 rounded text-lime-200 text-xs" onclick="document.getElementById('unmute_target').value='${c.id}';">#${c.name}</div>`).join('');
-                    });
-                    document.getElementById('unmute_channel_list').innerHTML = unmuteChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-lime-900/20 rounded text-lime-200 text-xs" onclick="document.getElementById('unmute_target').value='${c.id}';">#${c.name}</div>`).join('');
+                    unmuteContainer.innerHTML = `<div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i><input type="text" id="unmute_channel_search" placeholder="Filtrar canal..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40"></div><div id="unmute_channel_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>`;
+                    const channels = cachedChannels.filter(c => c.type === 0);
+                    renderPremiumChannelList('#unmute_channel_list', channels, '#unmute_target');
+                    setupSearch('#unmute_channel_search', '#unmute_channel_list', channels, '#unmute_target', renderPremiumChannelList);
                 } else if (scope === 'user') {
-                    unmuteContainer.innerHTML = `<div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i><input type="text" id="unmute_user_search" placeholder="Buscar usuario..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40"></div><div id="unmute_user_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"><div class="text-xs text-lime-300/50 p-3 text-center">Cargando...</div></div>`;
-                    document.getElementById('unmute_user_search').addEventListener('input', (evt) => {
-                        const q = evt.target.value.toLowerCase();
-                        document.getElementById('unmute_user_list').innerHTML = (unmuteUsers.filter(u => (u.user?.username || u.name || '').toLowerCase().includes(q)) || []).map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-lime-900/20 rounded text-lime-200 text-xs" onclick="document.getElementById('unmute_target').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
-                    });
-                    document.getElementById('unmute_user_list').innerHTML = unmuteUsers.map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-lime-900/20 rounded text-lime-200 text-xs" onclick="document.getElementById('unmute_target').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
+                    unmuteContainer.innerHTML = `<div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i><input type="text" id="unmute_user_search" placeholder="Buscar usuario..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40"></div><div id="unmute_user_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>`;
+                    renderPremiumList('#unmute_user_list', cachedMembers, '#unmute_target');
+                    setupSearch('#unmute_user_search', '#unmute_user_list', cachedMembers, '#unmute_target', renderPremiumList);
                 }
             });
 
@@ -6369,32 +6337,7 @@ ${imgs}${stickers}
         }));
 
         (() => {
-            let snipeAdvChannels = [];
-            let snipeAdvUsers = [];
-
-            document.getElementById('snipe_adv_channel_search').addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase();
-                document.getElementById('snipe_adv_channel_list').innerHTML = snipeAdvChannels.filter(c => c.name.toLowerCase().includes(q)).map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-purple-900/20 rounded text-purple-200 text-xs" onclick="document.getElementById('snipe_adv_channel_select').value='${c.id}';">#${c.name}</div>`).join('');
-            });
-
-            document.getElementById('snipe_adv_user_search').addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase();
-                document.getElementById('snipe_adv_user_list').innerHTML = snipeAdvUsers.filter(u => (u.user?.username || u.name || '').toLowerCase().includes(q)).map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-purple-900/20 rounded text-purple-200 text-xs" onclick="document.getElementById('snipe_adv_user_select').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
-            });
-
-            const loadSnipeAdv = async () => {
-                if (!currentGuildId) return;
-                const rCh = await api(`/api/bot/channels/${currentGuildId}`);
-                snipeAdvChannels = (rCh && rCh.channels) ? rCh.channels.filter(c => c.type === 0) : [];
-                document.getElementById('snipe_adv_channel_list').innerHTML = snipeAdvChannels.map(c => `<div class="premium-list-item cursor-pointer p-2 hover:bg-purple-900/20 rounded text-purple-200 text-xs" onclick="document.getElementById('snipe_adv_channel_select').value='${c.id}';">#${c.name}</div>`).join('');
-
-                const rU = await api(`/api/bot/members/${currentGuildId}`);
-                snipeAdvUsers = (rU && rU.members) ? rU.members : [];
-                document.getElementById('snipe_adv_user_list').innerHTML = snipeAdvUsers.slice(0, 20).map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-purple-900/20 rounded text-purple-200 text-xs" onclick="document.getElementById('snipe_adv_user_select').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
-            };
-
-            document.addEventListener('panelChange', (e) => { if (e.detail.id === 'mod-snipe-advanced') loadSnipeAdv(); });
-            loadSnipeAdv();
+            // Snipe adv channels and users loaded centrally by fetchChannels() / fetchMembers()
         })();
 
         wireBtn('btn_snipe_search', () => doAction('btn_snipe_search', async () => {
@@ -6432,21 +6375,7 @@ ${imgs}${stickers}
         }));
 
         (() => {
-            let cryptoUsers = [];
-            document.getElementById('crypto_user_search').addEventListener('input', (e) => {
-                const q = e.target.value.toLowerCase();
-                document.getElementById('crypto_user_list').innerHTML = cryptoUsers.filter(u => (u.user?.username || u.name || '').toLowerCase().includes(q)).map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-yellow-900/20 rounded text-yellow-200 text-xs" onclick="document.getElementById('crypto_user_select').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
-            });
-
-            const loadCryptoUsers = async () => {
-                if (!currentGuildId) return;
-                const r = await api(`/api/bot/members/${currentGuildId}`);
-                cryptoUsers = (r && r.members) ? r.members : [];
-                document.getElementById('crypto_user_list').innerHTML = cryptoUsers.slice(0, 20).map(u => `<div class="premium-list-item cursor-pointer p-2 hover:bg-yellow-900/20 rounded text-yellow-200 text-xs" onclick="document.getElementById('crypto_user_select').value='${u.id}';">${u.user?.username || u.name || u.id}</div>`).join('');
-            };
-
-            document.addEventListener('panelChange', (e) => { if (e.detail.id === 'mod-crypto') loadCryptoUsers(); });
-            loadCryptoUsers();
+            // Crypto panel users loaded centrally by fetchMembers()
         })();
 
         wireBtn('btn_crypto_execute', () => doAction('btn_crypto_execute', async () => {
