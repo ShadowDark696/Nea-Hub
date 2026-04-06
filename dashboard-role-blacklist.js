@@ -5,13 +5,13 @@ let blacklistSelectedRoles = [];
 // Load members and roles when panel is shown
 function loadBlacklistPanel() {
     if (!currentGuildId) return;
-    
+
     // Load members list
     renderPremiumList('#blacklist_user_list', cachedMembers || [], '#blacklist_user_select')
-    
+
     // Load roles list
     renderPremiumRoleList('#blacklist_role_list', cachedRoles || [], '#blacklist_temp_role')
-    
+
     // Load current blacklist
     loadBlacklistDisplay()
 }
@@ -62,7 +62,7 @@ async function loadBlacklistDisplay() {
             container.innerHTML = '<p class="text-xs text-red-300/50 text-center">Sin datos de blacklist</p>'
             return
         }
-        
+
         let html = ''
         for (const [userId, info] of Object.entries(data.blacklist)) {
             try {
@@ -74,7 +74,7 @@ async function loadBlacklistDisplay() {
                         return role ? role.name : rid
                     })
                     .join(', ')
-                
+
                 html += `
                 <div class="bg-black/50 border border-red-500/20 p-3 rounded flex justify-between items-center mb-2">
                     <div>
@@ -89,7 +89,7 @@ async function loadBlacklistDisplay() {
                 `
             } catch (e) { console.error('render blacklist item', e) }
         }
-        
+
         if (!html) {
             container.innerHTML = '<p class="text-xs text-red-300/50 text-center">Blacklist vacía</p>'
         } else {
@@ -105,10 +105,10 @@ async function loadBlacklistDisplay() {
 $('#btn_do_blacklist')?.addEventListener('click', async (e) => {
     const userId = $('#blacklist_user_select').value
     const reason = $('#blacklist_reason').value
-    
+
     if (!userId) return toast('SELECCIONA UN USUARIO', true)
     if (blacklistSelectedRoles.length === 0) return toast('SELECCIONA AL MENOS UN ROL', true)
-    
+
     e.target.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>AGREGANDO...'
     try {
         await api(`/api/bot/role-blacklist/${currentGuildId}`, {
@@ -152,8 +152,8 @@ $('#btn_do_blacklist_remove')?.addEventListener('click', async (e) => {
 })
 
 // Override renderPremiumList to support multi-select for roles
-const originalRenderPremiumRoleList = window.renderPremiumRoleList || function() {}
-window.renderPremiumRoleListMulti = function(containerId, roles, tempInputId, filter = '') {
+const originalRenderPremiumRoleList = window.renderPremiumRoleList || function () { }
+window.renderPremiumRoleListMulti = function (containerId, roles, tempInputId, filter = '') {
     const container = document.querySelector(containerId)
     if (!container) return
 
