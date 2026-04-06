@@ -250,9 +250,26 @@
             box-shadow: 0 0 25px rgba(157, 78, 221, 0.4);
             transform: scale(1.05);
         }
-        .personal-label { font-size: 10px; }
-        .asistente-chat-box { min-height: 350px; max-height: 55vh; }
-        .asistente-footer-note { font-size: 10px; }
+
+        .personal-label {
+            font-size: 10px;
+        }
+
+        .asistente-chat-box {
+            min-height: 350px;
+            max-height: 55vh;
+        }
+
+        .asistente-footer-note {
+            font-size: 10px;
+        }
+
+        .asis-textarea {
+            min-height: 44px;
+            max-height: 180px;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
     </style>
 </head>
 
@@ -334,6 +351,51 @@
                         <span class="ml-4 hacker-font text-xl">Sincronizando con Discord API...</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+
+        <section id="view-asistente" class="absolute inset-0 w-full h-full hidden flex flex-col bg-[#0a0514] z-30">
+            <div class="flex items-center gap-4 px-6 py-4 border-b border-purple-500/20 glass-panel shrink-0">
+                <button id="asis-back" title="Volver al selector de redes" aria-label="Volver al selector"
+                    class="text-purple-300 hover:text-white hacker-font text-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>VOLVER
+                </button>
+                <div class="w-px h-8 bg-purple-500/30 mx-2"></div>
+                <div class="w-10 h-10 rounded-lg bg-purple-900/50 border border-purple-500/40 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-robot text-xl text-purple-400" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold text-white leading-tight">ASISTENTE PERSONAL</h2>
+                    <p class="text-xs text-purple-300/60 hacker-font">Conectado a n8n · Canal Cifrado</p>
+                </div>
+                <div class="ml-auto flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse shrink-0"></span>
+                    <span class="text-green-400/70 text-xs hacker-font">EN LÍNEA</span>
+                </div>
+            </div>
+            <div id="asis-chat-box" class="flex-1 overflow-y-auto scrollbar p-6 space-y-4"></div>
+            <div id="asis-attach-preview" class="hidden px-4 pb-0 pt-3 border-t border-purple-900/30">
+                <div id="asis-attach-list" class="flex gap-2 flex-wrap pb-2"></div>
+            </div>
+            <div class="shrink-0 p-4 border-t border-purple-900/50 glass-panel">
+                <div class="flex gap-2 items-end">
+                    <label for="asis-file" title="Adjuntar archivo o imagen" aria-label="Adjuntar archivo"
+                        class="shrink-0 cursor-pointer bg-purple-900/30 hover:bg-purple-800/50 border border-purple-700/40 hover:border-purple-500/70 text-purple-400 hover:text-purple-200 w-11 h-11 rounded-lg flex items-center justify-center transition">
+                        <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                    </label>
+                    <input type="file" id="asis-file" multiple
+                        accept="image/*,.pdf,.txt,.json,.csv,.zip,.md" class="sr-only"
+                        aria-label="Adjuntar archivo o imagen" />
+                    <textarea id="asis-input" rows="1" maxlength="4000"
+                        placeholder="Escríbele al asistente..." autocomplete="off"
+                        class="flex-1 bg-black/60 border border-purple-800/60 text-purple-100 text-sm rounded-lg px-4 py-3 placeholder-purple-700/50 focus:outline-none focus:border-purple-500 transition resize-none scrollbar asis-textarea"></textarea>
+                    <button id="asis-send" title="Enviar mensaje" aria-label="Enviar"
+                        class="shrink-0 bg-purple-700 hover:bg-purple-600 disabled:opacity-40 disabled:cursor-not-allowed text-white w-11 h-11 rounded-lg border border-purple-500 transition flex items-center justify-center">
+                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <p class="text-purple-700/40 text-center text-xs tracking-widest mt-2 hacker-font">ACCESO RESTRINGIDO · MENSAJES CIFRADOS VÍA N8N</p>
             </div>
         </section>
 
@@ -653,15 +715,6 @@
                         data-target="mod-god-eco" aria-label="Menu item"><i
                             class="fa-solid fa-sack-dollar w-6 text-center text-red-500" aria-hidden="true"></i><span
                             class="ml-2 text-sm">Billonario Global</span></button>
-                    <div id="personal-section" class="hidden mt-2 border-t border-purple-500/20 pt-2">
-                        <p class="personal-label px-4 py-1 text-purple-500/60 font-bold tracking-widest">— PERSONAL —</p>
-                        <button
-                            id="btn-asistente"
-                            class="menu-item sidebar-btn w-full text-left px-4 py-3 rounded text-purple-200 font-bold flex items-center"
-                            data-target="mod-asistente" aria-label="Asistente Personal"><i
-                                class="fa-solid fa-robot w-6 text-center text-purple-400" aria-hidden="true"></i><span
-                                class="ml-2 text-sm">Asistente Personal</span></button>
-                    </div>
                 </nav>
             </aside>
 
@@ -675,35 +728,6 @@
                         <h2 class="text-2xl hacker-font text-white mb-2">CONEXIÓN ESTABLECIDA</h2>
                         <p class="text-purple-300 text-center">Seleccione un módulo a la izquierda (Moderación, Finanzas
                             o Sistema) para desplegar el cuadro de herramientas.</p>
-                    </div>
-
-
-                    <div id="mod-asistente" class="workspace-panel hidden glass-panel rounded-xl animate-slide-up">
-                        <div class="flex items-center gap-3 p-6 pb-4 border-b border-purple-500/30">
-                            <i class="fa-solid fa-robot text-3xl text-purple-400"></i>
-                            <div>
-                                <h2 class="text-2xl text-white">ASISTENTE PERSONAL</h2>
-                                <p class="text-xs text-purple-300 hacker-font">Conectado a n8n · Canal Cifrado</p>
-                            </div>
-                            <div class="ml-auto flex items-center gap-1.5">
-                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                <span class="text-green-400/70 text-xs">EN LÍNEA</span>
-                            </div>
-                        </div>
-                        <div id="asistente-chat-box" class="asistente-chat-box overflow-y-auto space-y-3 p-6"></div>
-                        <div class="p-4 border-t border-purple-900/50">
-                            <div class="flex gap-2">
-                                <input id="asistente-input" type="text" aria-label="Mensaje al asistente" title="Mensaje al asistente"
-                                    placeholder="Escríbele al asistente..." maxlength="2000" autocomplete="off"
-                                    class="flex-1 bg-black/60 border border-purple-800/60 text-purple-100 text-sm rounded-lg px-4 py-3 placeholder-purple-700/50 focus:outline-none focus:border-purple-500 transition" />
-                                <button id="asistente-send" title="Enviar mensaje al asistente"
-                                    class="bg-purple-700 hover:bg-purple-600 disabled:opacity-40 disabled:cursor-not-allowed text-white px-5 py-3 rounded-lg border border-purple-500 transition font-bold text-sm">
-                                    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
-                                    <span class="sr-only">Enviar</span>
-                                </button>
-                            </div>
-                            <p class="asistente-footer-note text-purple-700/50 text-center tracking-wider mt-2">Tus mensajes van directamente a n8n</p>
-                        </div>
                     </div>
 
 
@@ -4963,6 +4987,17 @@
                         </div>
                     `;
                 }).join('');
+                if (window.ASISTENTE_IDS && userRes && window.ASISTENTE_IDS.includes(userRes.id)) {
+                    selectorGrid.innerHTML += `
+                        <div class="guild-card p-6 rounded-lg border border-purple-500/30 hover:border-purple-500/70 cursor-pointer transition transform hover:scale-105 glass-panel" onclick="openAsistente()">
+                            <div class="w-24 h-24 rounded-lg mx-auto mb-4 border-2 border-purple-500/50 flex items-center justify-center bg-purple-900/30">
+                                <i class="fa-solid fa-robot text-5xl text-purple-400" aria-hidden="true"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-white truncate text-center">ASISTENTE PERSONAL</h3>
+                            <p class="text-xs text-purple-300 text-center mt-2 hacker-font">PRIVADO · N8N</p>
+                        </div>
+                    `;
+                }
             }
             const viewSelector = document.getElementById('view-selector');
             const viewDashboard = document.getElementById('view-dashboard');
@@ -6475,86 +6510,162 @@ ${imgs}${stickers}
         };
     </script>
     <script>
+        window.ASISTENTE_IDS = ['875723585946259469', '1451323308871254138'];
         (function () {
-            const ASISTENTE_IDS = ['875723585946259469', '1451323308871254138'];
             const BASE = window.BASE_API || 'https://rupc-qzce.onrender.com';
-            let asistenteCargando = false;
+            let asisCargando = false;
+            let _pendingFiles = [];
 
-            async function checkAsistenteAccess() {
-                const token = localStorage.getItem('nea_sid') || localStorage.getItem('nea_token');
-                if (!token) return;
-                try {
-                    const r = await fetch(BASE + '/api/user', { headers: { 'Authorization': 'Bearer ' + token }, credentials: 'include' });
-                    if (!r.ok) return;
-                    const user = await r.json();
-                    if (user && ASISTENTE_IDS.includes(user.id)) {
-                        const section = document.getElementById('personal-section');
-                        if (section) section.classList.remove('hidden');
-                    }
-                } catch (e) { /* silencioso */ }
-            }
+            window.openAsistente = function () {
+                const vSel = document.getElementById('view-selector');
+                const vDash = document.getElementById('view-dashboard');
+                const vAsis = document.getElementById('view-asistente');
+                if (vSel) vSel.classList.add('hidden');
+                if (vDash) vDash.classList.add('hidden');
+                if (vAsis) vAsis.classList.remove('hidden');
+                setTimeout(function () {
+                    const inp = document.getElementById('asis-input');
+                    if (inp) inp.focus();
+                }, 80);
+            };
 
-            function addMsgAsistente(role, text) {
-                const box = document.getElementById('asistente-chat-box');
+            function addMsg(role, text, fileNames) {
+                const box = document.getElementById('asis-chat-box');
                 if (!box) return;
                 const d = document.createElement('div');
-                const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+                const escaped = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+                let attachHtml = '';
+                if (fileNames && fileNames.length) {
+                    attachHtml = '<div class="mt-2 flex flex-wrap gap-2">' +
+                        fileNames.map(function (fn) {
+                            const safe = fn.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            return '<span class="text-xs bg-purple-900/40 border border-purple-700/40 text-purple-300 px-2 py-1 rounded flex items-center gap-1"><i class="fa-solid fa-paperclip text-purple-500 text-xs"></i>' + safe + '</span>';
+                        }).join('') + '</div>';
+                }
                 if (role === 'user') {
-                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-purple-500 bg-purple-900/20 text-purple-100';
-                    d.innerHTML = '<div class="text-purple-400/60 text-xs mb-1 font-bold">TÚ</div>' + escaped;
+                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-purple-500 bg-purple-900/20 text-purple-100 max-w-3xl ml-auto';
+                    d.innerHTML = '<div class="text-purple-400/60 text-xs mb-1 font-bold hacker-font">TÚ</div>' + escaped + attachHtml;
                 } else if (role === 'error') {
                     d.className = 'rounded-lg p-3 text-sm border-l-2 border-red-500 bg-red-900/20 text-red-300';
-                    d.innerHTML = '<div class="text-red-400/60 text-xs mb-1 font-bold">ERROR</div>' + escaped;
+                    d.innerHTML = '<div class="text-red-400/60 text-xs mb-1 font-bold hacker-font">ERROR</div>' + escaped;
                 } else {
-                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-cyan-700 bg-cyan-900/10 text-cyan-200';
-                    d.innerHTML = '<div class="text-cyan-400/60 text-xs mb-1 font-bold flex items-center gap-1"><i class="fa-solid fa-robot text-xs" aria-hidden="true"></i> ASISTENTE</div>' + escaped;
+                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-cyan-700 bg-cyan-900/10 text-cyan-200 max-w-3xl';
+                    d.innerHTML = '<div class="text-cyan-400/60 text-xs mb-1 font-bold hacker-font flex items-center gap-1"><i class="fa-solid fa-robot text-xs" aria-hidden="true"></i> ASISTENTE</div>' + escaped;
                 }
                 box.appendChild(d);
                 box.scrollTop = box.scrollHeight;
             }
 
-            function addTypingAsistente() {
-                const box = document.getElementById('asistente-chat-box');
+            function addTyping() {
+                const box = document.getElementById('asis-chat-box');
                 if (!box) return;
                 const d = document.createElement('div');
-                d.id = 'asistente-typing';
+                d.id = 'asis-typing';
                 d.className = 'rounded-lg p-3 text-sm border-l-2 border-cyan-700 bg-cyan-900/10 text-cyan-400/60';
-                d.innerHTML = '<div class="text-cyan-400/60 text-xs mb-1 font-bold">ASISTENTE</div><span class="animate-pulse">●●●</span>';
+                d.innerHTML = '<div class="text-cyan-400/60 text-xs mb-1 font-bold hacker-font">ASISTENTE</div><span class="animate-pulse text-lg tracking-widest">●●●</span>';
                 box.appendChild(d);
                 box.scrollTop = box.scrollHeight;
             }
 
-            async function enviarAlAsistente() {
-                if (asistenteCargando) return;
-                const inp = document.getElementById('asistente-input');
-                const btn = document.getElementById('asistente-send');
+            function removeTyping() {
+                const el = document.getElementById('asis-typing');
+                if (el) el.remove();
+            }
+
+            function fileToBase64(file) {
+                return new Promise(function (resolve, reject) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) { resolve(e.target.result); };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function clearPendingFiles() {
+                _pendingFiles = [];
+                const list = document.getElementById('asis-attach-list');
+                const preview = document.getElementById('asis-attach-preview');
+                if (list) list.innerHTML = '';
+                if (preview) preview.classList.add('hidden');
+                const fi = document.getElementById('asis-file');
+                if (fi) fi.value = '';
+            }
+
+            function renderPendingFiles() {
+                const list = document.getElementById('asis-attach-list');
+                const preview = document.getElementById('asis-attach-preview');
+                if (!list || !preview) return;
+                if (_pendingFiles.length === 0) {
+                    preview.classList.add('hidden');
+                    list.innerHTML = '';
+                    return;
+                }
+                preview.classList.remove('hidden');
+                list.innerHTML = _pendingFiles.map(function (f, i) {
+                    const isImg = f.type.startsWith('image/');
+                    const icon = isImg ? 'fa-image' : 'fa-file';
+                    const safe = f.name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return '<div class="flex items-center gap-1 bg-purple-900/30 border border-purple-700/40 text-purple-300 text-xs px-2 py-1.5 rounded">' +
+                        '<i class="fa-solid ' + icon + ' text-purple-500"></i>' +
+                        '<span class="max-w-[120px] truncate">' + safe + '</span>' +
+                        '<button type="button" onclick="window._asisClearFile(' + i + ')" class="ml-1 text-purple-500 hover:text-red-400 transition" aria-label="Quitar archivo" title="Quitar"><i class="fa-solid fa-xmark text-xs"></i></button>' +
+                        '</div>';
+                }).join('');
+            }
+
+            window._asisClearFile = function (idx) {
+                _pendingFiles.splice(idx, 1);
+                renderPendingFiles();
+            };
+
+            async function enviar() {
+                if (asisCargando) return;
+                const inp = document.getElementById('asis-input');
+                const btn = document.getElementById('asis-send');
                 const texto = inp.value.trim();
-                if (!texto) return;
+                if (!texto && _pendingFiles.length === 0) return;
+                const filesSnapshot = _pendingFiles.slice();
+                const fileNames = filesSnapshot.map(function (f) { return f.name; });
+                let encodedFiles = [];
+                if (filesSnapshot.length > 0) {
+                    try {
+                        encodedFiles = await Promise.all(filesSnapshot.map(function (f) {
+                            return fileToBase64(f).then(function (data) {
+                                return { name: f.name, type: f.type, data: data };
+                            });
+                        }));
+                    } catch (e) {
+                        addMsg('error', 'Error procesando archivos adjuntos.');
+                        return;
+                    }
+                }
                 inp.value = '';
-                asistenteCargando = true;
+                inp.style.height = '';
+                clearPendingFiles();
+                asisCargando = true;
                 inp.disabled = true;
                 btn.disabled = true;
-                addMsgAsistente('user', texto);
-                addTypingAsistente();
+                addMsg('user', texto || '(archivo adjunto)', fileNames.length ? fileNames : null);
+                addTyping();
                 try {
                     const token = localStorage.getItem('nea_sid') || localStorage.getItem('nea_token');
+                    const body = { message: texto || '(archivo adjunto)' };
+                    if (encodedFiles.length) body.files = encodedFiles;
                     const r = await fetch(BASE + '/api/assistant/chat', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
                         credentials: 'include',
-                        body: JSON.stringify({ message: texto })
+                        body: JSON.stringify(body)
                     });
-                    const el = document.getElementById('asistente-typing');
-                    if (el) el.remove();
+                    removeTyping();
                     const data = await r.json();
-                    if (!r.ok || data.error) addMsgAsistente('error', data.error || 'Error del servidor.');
-                    else addMsgAsistente('bot', data.reply);
+                    if (!r.ok || data.error) addMsg('error', data.error || 'Error del servidor.');
+                    else addMsg('bot', data.reply);
                 } catch (e) {
-                    const el = document.getElementById('asistente-typing');
-                    if (el) el.remove();
-                    addMsgAsistente('error', 'Error conectando con el asistente.');
+                    removeTyping();
+                    addMsg('error', 'Error conectando con el asistente.');
                 } finally {
-                    asistenteCargando = false;
+                    asisCargando = false;
                     inp.disabled = false;
                     btn.disabled = false;
                     inp.focus();
@@ -6562,24 +6673,43 @@ ${imgs}${stickers}
             }
 
             document.addEventListener('DOMContentLoaded', function () {
-                checkAsistenteAccess();
-                const sendBtn = document.getElementById('asistente-send');
-                const inputEl = document.getElementById('asistente-input');
-                if (sendBtn) sendBtn.addEventListener('click', enviarAlAsistente);
-                if (inputEl) inputEl.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarAlAsistente(); }
-                });
-                document.addEventListener('panelChange', function (e) {
-                    if (e.detail && e.detail.id === 'mod-asistente') {
-                        setTimeout(function () {
-                            const inp = document.getElementById('asistente-input');
-                            if (inp) inp.focus();
-                        }, 150);
-                    }
-                });
+                const backBtn = document.getElementById('asis-back');
+                if (backBtn) {
+                    backBtn.addEventListener('click', function () {
+                        document.getElementById('view-asistente').classList.add('hidden');
+                        document.getElementById('view-selector').classList.remove('hidden');
+                    });
+                }
+                const sendBtn = document.getElementById('asis-send');
+                if (sendBtn) sendBtn.addEventListener('click', enviar);
+                const inputEl = document.getElementById('asis-input');
+                if (inputEl) {
+                    inputEl.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviar(); }
+                    });
+                    inputEl.addEventListener('input', function () {
+                        this.style.height = '';
+                        this.style.height = Math.min(this.scrollHeight, 180) + 'px';
+                    });
+                }
+                const fileInput = document.getElementById('asis-file');
+                if (fileInput) {
+                    fileInput.addEventListener('change', function () {
+                        const newFiles = Array.from(this.files);
+                        for (let i = 0; i < newFiles.length; i++) {
+                            if (_pendingFiles.length >= 5) break;
+                            const f = newFiles[i];
+                            if (f.size > 10 * 1024 * 1024) {
+                                addMsg('error', 'Archivo demasiado grande (máx. 10 MB): ' + f.name);
+                                continue;
+                            }
+                            _pendingFiles.push(f);
+                        }
+                        renderPendingFiles();
+                        this.value = '';
+                    });
+                }
             });
-
-            setTimeout(checkAsistenteAccess, 1500);
         })();
     </script>
 </body>
