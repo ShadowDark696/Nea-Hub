@@ -5182,7 +5182,7 @@
         wireBtn('btn_do_nick_remove', () => doAction('btn_do_nick_remove', async () => {
             const userId = getVal('nick_user_select');
             if (!userId) return { error: 'Selecciona un usuario' };
-            const r = await api(`/api/guilds/${currentGuildId}/mod/nickname`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, nickname: '' }) });
+            const r = await api(`/api/guilds/${currentGuildId}/mod/nickname`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, nickname: null, action: 'remove' }) });
             return r ? { _msg: 'Nick removido de ' + getMemberName(userId) } : { error: 'Fallo' };
         }));
 
