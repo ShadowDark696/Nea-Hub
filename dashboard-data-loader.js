@@ -75,7 +75,7 @@ const DataLoader = (() => {
         container.innerHTML = '<div class="text-xs text-purple-300/50 p-4 text-center">Cargando canales...</div>';
 
         const channels = await loadChannels(guildId);
-        
+
         if (channels.length === 0) {
             container.innerHTML = '<div class="text-xs text-red-300/50 p-4 text-center">Sin canales disponibles</div>';
             return;
