@@ -3,9 +3,9 @@
  * Hacerload de datos cuando el usuario abre una categoría
  */
 
-(function() {
+(function () {
     console.log('[*] Dashboard Auto-Loader iniciando...');
-    
+
     // Esperar a que el DOM y BASE_API estén listos
     function waitForBaseAPI() {
         return new Promise(resolve => {
@@ -95,10 +95,10 @@
         loaders.forEach(loader => {
             const btn = document.querySelector(loader.btn);
             if (btn) {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     setTimeout(async () => {
                         if (typeof currentGuildId !== 'undefined' && currentGuildId) {
                             console.log(`[*] Loading channels for guild: ${currentGuildId}`);

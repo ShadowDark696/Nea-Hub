@@ -1256,7 +1256,8 @@
                                 <div
                                     class="w-24 h-24 shrink-0 rounded-xl bg-black/60 border border-cyan-500/50 flex items-center justify-center overflow-hidden">
                                     <img id="bureau_avatar" src="" alt="User avatar" title="User avatar"
-                                        class="w-full h-full object-cover hidden">
+                                        class="w-full h-full object-cover hidden"
+                                        onerror="this.classList.add('hidden');document.getElementById('bureau_avatar_placeholder')?.classList.remove('hidden')">
                                     <i id="bureau_avatar_placeholder"
                                         class="fa-solid fa-user-secret text-4xl text-cyan-500/30"></i>
                                 </div>
@@ -5009,9 +5010,9 @@
             if (viewDashboard) viewDashboard.classList.add('hidden');
         }
 
-        document.addEventListener('panelChange', function(e) {
+        document.addEventListener('panelChange', function (e) {
             if (e.detail && e.detail.id === 'mod-roleblacklist') {
-                setTimeout(function() {
+                setTimeout(function () {
                     if (typeof window.loadBlacklistPanel === 'function') window.loadBlacklistPanel();
                 }, 100);
             }
