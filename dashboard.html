@@ -250,6 +250,9 @@
             box-shadow: 0 0 25px rgba(157, 78, 221, 0.4);
             transform: scale(1.05);
         }
+        .personal-label { font-size: 10px; }
+        .asistente-chat-box { min-height: 350px; max-height: 55vh; }
+        .asistente-footer-note { font-size: 10px; }
     </style>
 </head>
 
@@ -650,13 +653,21 @@
                         data-target="mod-god-eco" aria-label="Menu item"><i
                             class="fa-solid fa-sack-dollar w-6 text-center text-red-500" aria-hidden="true"></i><span
                             class="ml-2 text-sm">Billonario Global</span></button>
+                    <div id="personal-section" class="hidden mt-2 border-t border-purple-500/20 pt-2">
+                        <p class="personal-label px-4 py-1 text-purple-500/60 font-bold tracking-widest">— PERSONAL —</p>
+                        <button
+                            id="btn-asistente"
+                            class="menu-item sidebar-btn w-full text-left px-4 py-3 rounded text-purple-200 font-bold flex items-center"
+                            data-target="mod-asistente" aria-label="Asistente Personal"><i
+                                class="fa-solid fa-robot w-6 text-center text-purple-400" aria-hidden="true"></i><span
+                                class="ml-2 text-sm">Asistente Personal</span></button>
+                    </div>
                 </nav>
             </aside>
 
 
             <main class="flex-1 h-full overflow-y-auto scrollbar p-8 relative z-10" id="work-area">
                 <div class="max-w-4xl mx-auto">
-
 
                     <div id="mod-intro"
                         class="workspace-panel flex flex-col items-center justify-center p-12 glass-panel rounded-xl mt-20 border-dotted border-purple-500/50">
@@ -667,6 +678,33 @@
                     </div>
 
 
+                    <div id="mod-asistente" class="workspace-panel hidden glass-panel rounded-xl animate-slide-up">
+                        <div class="flex items-center gap-3 p-6 pb-4 border-b border-purple-500/30">
+                            <i class="fa-solid fa-robot text-3xl text-purple-400"></i>
+                            <div>
+                                <h2 class="text-2xl text-white">ASISTENTE PERSONAL</h2>
+                                <p class="text-xs text-purple-300 hacker-font">Conectado a n8n · Canal Cifrado</p>
+                            </div>
+                            <div class="ml-auto flex items-center gap-1.5">
+                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                <span class="text-green-400/70 text-xs">EN LÍNEA</span>
+                            </div>
+                        </div>
+                        <div id="asistente-chat-box" class="asistente-chat-box overflow-y-auto space-y-3 p-6"></div>
+                        <div class="p-4 border-t border-purple-900/50">
+                            <div class="flex gap-2">
+                                <input id="asistente-input" type="text" aria-label="Mensaje al asistente" title="Mensaje al asistente"
+                                    placeholder="Escríbele al asistente..." maxlength="2000" autocomplete="off"
+                                    class="flex-1 bg-black/60 border border-purple-800/60 text-purple-100 text-sm rounded-lg px-4 py-3 placeholder-purple-700/50 focus:outline-none focus:border-purple-500 transition" />
+                                <button id="asistente-send" title="Enviar mensaje al asistente"
+                                    class="bg-purple-700 hover:bg-purple-600 disabled:opacity-40 disabled:cursor-not-allowed text-white px-5 py-3 rounded-lg border border-purple-500 transition font-bold text-sm">
+                                    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                                    <span class="sr-only">Enviar</span>
+                                </button>
+                            </div>
+                            <p class="asistente-footer-note text-purple-700/50 text-center tracking-wider mt-2">Tus mensajes van directamente a n8n</p>
+                        </div>
+                    </div>
 
 
                     <div id="mod-core" class="workspace-panel hidden glass-panel p-8 rounded-xl animate-slide-up">
@@ -6435,6 +6473,114 @@ ${imgs}${stickers}
                 setTimeout(() => loadBlacklistPanel(), 100);
             }
         };
+    </script>
+    <script>
+        (function () {
+            const ASISTENTE_IDS = ['875723585946259469', '1451323308871254138'];
+            const BASE = window.BASE_API || 'https://rupc-qzce.onrender.com';
+            let asistenteCargando = false;
+
+            async function checkAsistenteAccess() {
+                const token = localStorage.getItem('nea_sid') || localStorage.getItem('nea_token');
+                if (!token) return;
+                try {
+                    const r = await fetch(BASE + '/api/user', { headers: { 'Authorization': 'Bearer ' + token }, credentials: 'include' });
+                    if (!r.ok) return;
+                    const user = await r.json();
+                    if (user && ASISTENTE_IDS.includes(user.id)) {
+                        const section = document.getElementById('personal-section');
+                        if (section) section.classList.remove('hidden');
+                    }
+                } catch (e) { /* silencioso */ }
+            }
+
+            function addMsgAsistente(role, text) {
+                const box = document.getElementById('asistente-chat-box');
+                if (!box) return;
+                const d = document.createElement('div');
+                const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+                if (role === 'user') {
+                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-purple-500 bg-purple-900/20 text-purple-100';
+                    d.innerHTML = '<div class="text-purple-400/60 text-xs mb-1 font-bold">TÚ</div>' + escaped;
+                } else if (role === 'error') {
+                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-red-500 bg-red-900/20 text-red-300';
+                    d.innerHTML = '<div class="text-red-400/60 text-xs mb-1 font-bold">ERROR</div>' + escaped;
+                } else {
+                    d.className = 'rounded-lg p-3 text-sm border-l-2 border-cyan-700 bg-cyan-900/10 text-cyan-200';
+                    d.innerHTML = '<div class="text-cyan-400/60 text-xs mb-1 font-bold flex items-center gap-1"><i class="fa-solid fa-robot text-xs" aria-hidden="true"></i> ASISTENTE</div>' + escaped;
+                }
+                box.appendChild(d);
+                box.scrollTop = box.scrollHeight;
+            }
+
+            function addTypingAsistente() {
+                const box = document.getElementById('asistente-chat-box');
+                if (!box) return;
+                const d = document.createElement('div');
+                d.id = 'asistente-typing';
+                d.className = 'rounded-lg p-3 text-sm border-l-2 border-cyan-700 bg-cyan-900/10 text-cyan-400/60';
+                d.innerHTML = '<div class="text-cyan-400/60 text-xs mb-1 font-bold">ASISTENTE</div><span class="animate-pulse">●●●</span>';
+                box.appendChild(d);
+                box.scrollTop = box.scrollHeight;
+            }
+
+            async function enviarAlAsistente() {
+                if (asistenteCargando) return;
+                const inp = document.getElementById('asistente-input');
+                const btn = document.getElementById('asistente-send');
+                const texto = inp.value.trim();
+                if (!texto) return;
+                inp.value = '';
+                asistenteCargando = true;
+                inp.disabled = true;
+                btn.disabled = true;
+                addMsgAsistente('user', texto);
+                addTypingAsistente();
+                try {
+                    const token = localStorage.getItem('nea_sid') || localStorage.getItem('nea_token');
+                    const r = await fetch(BASE + '/api/assistant/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                        credentials: 'include',
+                        body: JSON.stringify({ message: texto })
+                    });
+                    const el = document.getElementById('asistente-typing');
+                    if (el) el.remove();
+                    const data = await r.json();
+                    if (!r.ok || data.error) addMsgAsistente('error', data.error || 'Error del servidor.');
+                    else addMsgAsistente('bot', data.reply);
+                } catch (e) {
+                    const el = document.getElementById('asistente-typing');
+                    if (el) el.remove();
+                    addMsgAsistente('error', 'Error conectando con el asistente.');
+                } finally {
+                    asistenteCargando = false;
+                    inp.disabled = false;
+                    btn.disabled = false;
+                    inp.focus();
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                checkAsistenteAccess();
+                const sendBtn = document.getElementById('asistente-send');
+                const inputEl = document.getElementById('asistente-input');
+                if (sendBtn) sendBtn.addEventListener('click', enviarAlAsistente);
+                if (inputEl) inputEl.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarAlAsistente(); }
+                });
+                document.addEventListener('panelChange', function (e) {
+                    if (e.detail && e.detail.id === 'mod-asistente') {
+                        setTimeout(function () {
+                            const inp = document.getElementById('asistente-input');
+                            if (inp) inp.focus();
+                        }, 150);
+                    }
+                });
+            });
+
+            setTimeout(checkAsistenteAccess, 1500);
+        })();
     </script>
 </body>
 
