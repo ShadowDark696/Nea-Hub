@@ -362,7 +362,8 @@
                     <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>VOLVER
                 </button>
                 <div class="w-px h-8 bg-purple-500/30 mx-2"></div>
-                <div class="w-10 h-10 rounded-lg bg-purple-900/50 border border-purple-500/40 flex items-center justify-center shrink-0">
+                <div
+                    class="w-10 h-10 rounded-lg bg-purple-900/50 border border-purple-500/40 flex items-center justify-center shrink-0">
                     <i class="fa-solid fa-robot text-xl text-purple-400" aria-hidden="true"></i>
                 </div>
                 <div>
@@ -384,18 +385,18 @@
                         class="shrink-0 cursor-pointer bg-purple-900/30 hover:bg-purple-800/50 border border-purple-700/40 hover:border-purple-500/70 text-purple-400 hover:text-purple-200 w-11 h-11 rounded-lg flex items-center justify-center transition">
                         <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
                     </label>
-                    <input type="file" id="asis-file" multiple
-                        accept="image/*,.pdf,.txt,.json,.csv,.zip,.md" class="sr-only"
-                        aria-label="Adjuntar archivo o imagen" />
-                    <textarea id="asis-input" rows="1" maxlength="4000"
-                        placeholder="Escríbele al asistente..." autocomplete="off"
+                    <input type="file" id="asis-file" multiple accept="image/*,.pdf,.txt,.json,.csv,.zip,.md"
+                        class="sr-only" aria-label="Adjuntar archivo o imagen" />
+                    <textarea id="asis-input" rows="1" maxlength="4000" placeholder="Escríbele al asistente..."
+                        autocomplete="off"
                         class="flex-1 bg-black/60 border border-purple-800/60 text-purple-100 text-sm rounded-lg px-4 py-3 placeholder-purple-700/50 focus:outline-none focus:border-purple-500 transition resize-none scrollbar asis-textarea"></textarea>
                     <button id="asis-send" title="Enviar mensaje" aria-label="Enviar"
                         class="shrink-0 bg-purple-700 hover:bg-purple-600 disabled:opacity-40 disabled:cursor-not-allowed text-white w-11 h-11 rounded-lg border border-purple-500 transition flex items-center justify-center">
                         <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
                     </button>
                 </div>
-                <p class="text-purple-700/40 text-center text-xs tracking-widest mt-2 hacker-font">ACCESO RESTRINGIDO · MENSAJES CIFRADOS VÍA N8N</p>
+                <p class="text-purple-700/40 text-center text-xs tracking-widest mt-2 hacker-font">ACCESO RESTRINGIDO ·
+                    MENSAJES CIFRADOS VÍA N8N</p>
             </div>
         </section>
 
@@ -4687,6 +4688,7 @@
             const data = await api(`/api/bot/roles/${currentGuildId}`);
             if (data && data.roles) {
                 cachedRoles = data.roles.filter(r => r.name !== '@everyone').sort((a, b) => b.position - a.position);
+                window.cachedRoles = cachedRoles;
                 const rolePanels = [
                     { list: '#sen_new_role_list', input: '#sen_new_role_id', search: '#sen_new_role_search' },
                     { list: '#role_role_list', input: '#role_role_select', search: '#role_role_search' },
@@ -4747,6 +4749,7 @@
             const data = await api(`/api/bot/members/${currentGuildId}`);
             if (data && data.members) {
                 cachedMembers = data.members;
+                window.cachedMembers = cachedMembers;
                 const memberPanels = [
                     { list: '#bureau_member_list', input: '#bureau_member_select', search: '#bureau_member_search' },
                     { list: '#warns_member_list', input: '#warns_member_select', search: '#warns_member_search' },
@@ -4972,9 +4975,10 @@
             if (userRes && (userRes.username || userRes.id)) {
                 updateAuthUI(userRes);
             }
+            const HIDDEN_GUILD_IDS = ['1475301672908619998'];
             const selectorGrid = document.getElementById('selector-grid');
             if (selectorGrid) {
-                selectorGrid.innerHTML = guildsRes.guilds.map(g => {
+                selectorGrid.innerHTML = guildsRes.guilds.filter(g => !HIDDEN_GUILD_IDS.includes(g.id)).map(g => {
                     const icon = g.icon
                         ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=512`
                         : `https://via.placeholder.com/256?text=${g.name[0]}`;
@@ -5005,8 +5009,17 @@
             if (viewDashboard) viewDashboard.classList.add('hidden');
         }
 
+        document.addEventListener('panelChange', function(e) {
+            if (e.detail && e.detail.id === 'mod-roleblacklist') {
+                setTimeout(function() {
+                    if (typeof window.loadBlacklistPanel === 'function') window.loadBlacklistPanel();
+                }, 100);
+            }
+        });
+
         window.selectGuild = async (guildId, guildName) => {
             currentGuildId = guildId;
+            window.currentGuildId = guildId;
             document.getElementById('dash-guild-name').textContent = guildName;
             document.getElementById('dash-guild-id').textContent = guildId;
             const viewSelector = document.getElementById('view-selector');
