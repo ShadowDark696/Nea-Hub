@@ -1105,6 +1105,26 @@
                                     <div class="text-xs text-red-300/50 p-4 text-center">Cargando...</div>
                                 </div>
                             </div>
+                            <div class="mt-6 pt-6 border-t border-red-500/20">
+                                <label class="text-xs text-red-300 mb-2 block hacker-font">⚙️ CONFIGURACIÓN DE
+                                    VISIBILIDAD</label>
+                                <div class="bg-black/30 p-4 rounded border border-red-500/20">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm text-red-200 font-semibold mb-1">Mostrar "Blacklist" en
+                                                auditoría</p>
+                                            <p class="text-xs text-red-300/70">Estado: <span
+                                                    id="blacklist_config_status">Cargando...</span></p>
+                                        </div>
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="checkbox" id="blacklist_visibility_toggle" class="sr-only peer">
+                                            <div class="relative w-11 h-6 bg-red-900/30 peer-checked:bg-green-600 rounded-full transition-all peer">
+                                                <div class="absolute top-0.5 left-0.5 bg-white border border-red-400 peer-checked:border-green-300 rounded-full h-5 w-5 transition-all peer-checked:translate-x-5"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -6527,6 +6547,7 @@ ${imgs}${stickers}
     </script>
 
     <script src="dashboard-role-blacklist.js" defer></script>
+    <script src="dashboard-role-blacklist-config.js" defer></script>
     <script>
         // Hook panel load event
         const originalShowPanel = window.showPanel || function () { };
