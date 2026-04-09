@@ -1,4 +1,3 @@
-// ===================== ROLE BLACKLIST PANEL (Self-contained) =====================
 (function () {
     function q(s) { return document.querySelector(s); }
 
@@ -40,7 +39,6 @@
 
     let blacklistSelectedRoles = [];
 
-    // ─── Member list ──────────────────────────────────────────────────────────
     function renderMemberList(filter) {
         filter = (filter || '').toLowerCase();
         const container = q('#blacklist_user_list');
@@ -79,7 +77,6 @@
         if (el) el.classList.add('selected');
     };
 
-    // ─── Role list ────────────────────────────────────────────────────────────
     function renderRoleList(filter) {
         filter = (filter || '').toLowerCase();
         const container = q('#blacklist_role_list');
@@ -133,7 +130,6 @@
         renderRoleList((q('#blacklist_role_search') || {}).value);
     };
 
-    // ─── Blacklist display ────────────────────────────────────────────────────
     async function loadBlacklistDisplay() {
         const guildId = getData().guildId;
         if (!guildId) return;
@@ -175,7 +171,6 @@
         loadBlacklistDisplay();
     };
 
-    // ─── Panel entry point ────────────────────────────────────────────────────
     window.loadBlacklistPanel = function () {
         const guildId = getData().guildId;
         if (!guildId) return;
@@ -185,14 +180,13 @@
         loadBlacklistDisplay();
     };
 
-    // ─── panelChange trigger ──────────────────────────────────────────────────
+
     document.addEventListener('panelChange', function (e) {
         if (e.detail && e.detail.id === 'mod-roleblacklist') {
             setTimeout(window.loadBlacklistPanel, 120);
         }
     });
 
-    // ─── Wire buttons & search ────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
         const uSearch = q('#blacklist_user_search');
         if (uSearch) uSearch.addEventListener('input', function (e) { renderMemberList(e.target.value); });

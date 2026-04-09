@@ -1,4 +1,3 @@
-// ===================== BLACKLIST CONFIG PANEL (Visibility Toggle) =====================
 (function () {
     function q(s) { return document.querySelector(s); }
     function qa(s) { return document.querySelectorAll(s); }
@@ -31,7 +30,6 @@
         }, 3000);
     }
 
-    // Load current visibility state
     window._loadBlacklistConfig = async function () {
         const guildId = window.currentGuildId;
         if (!guildId) {
@@ -56,7 +54,6 @@
         }
     };
 
-    // Toggle visibility
     window._toggleBlacklistVisibility = async function () {
         const guildId = window.currentGuildId;
         if (!guildId) {
@@ -78,12 +75,10 @@
             window._loadBlacklistConfig();
         } else {
             blToast('❌ Error actualizando configuración', true);
-            // Revert the toggle on error
             toggle.checked = !newValue;
         }
     };
 
-    // Initialize on page load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             const toggle = q('#blacklist_visibility_toggle');
@@ -100,7 +95,6 @@
         }
     }
 
-    // Load on guild change
     window._onBlacklistGuildChange = function () {
         window._loadBlacklistConfig();
     };
