@@ -982,29 +982,45 @@
                                 <p class="text-xs text-pink-200 hacker-font">DM vía Bot</p>
                             </div>
                         </div>
-                        <div class="bg-pink-950/20 p-6 rounded border border-pink-500/30">
+                        <div class="bg-pink-950/20 p-6 rounded border border-pink-500/30 mb-4">
                             <label class="text-xs text-pink-300 mb-1 block hacker-font">SELECCIONAR USUARIO</label>
                             <div class="relative mb-2">
-                                <i
-                                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
-                                <input type="text" id="dm_user_search" aria-label="Buscar usuario para enviar mensaje"
-                                    title="Buscar usuario"
-                                    class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40 ring-1 ring-pink-500/20"
-                                    placeholder="Buscar miembro...">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
+                                <input type="text" id="dm_user_search" aria-label="Buscar usuario para enviar mensaje" title="Buscar usuario" class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40 ring-1 ring-pink-500/20" placeholder="Buscar miembro...">
                             </div>
                             <div id="dm_user_list" class="premium-list scrollbar !border-pink-500/10 mb-4">
                                 <div class="text-xs text-pink-300/50 p-4 text-center">Cargando miembros...</div>
                             </div>
                             <input type="hidden" id="dm_user_select" title="Dm User Selection" value="">
                             <label class="text-xs text-pink-300 mb-1 block hacker-font mt-2">MENSAJE</label>
-                            <textarea id="dm_message" title="Dm Message" rows="3"
-                                aria-label="Contenido del mensaje privado" title="Ingrese su mensaje privado"
-                                class="w-full px-3 py-2 mb-4 rounded !border-pink-500/50"
-                                placeholder="Tu mensaje privado..."></textarea>
-                            <button id="btn_do_dm" title="Enviar mensaje privado al usuario"
-                                aria-label="Enviar mensaje privado"
-                                class="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3 rounded shadow-[0_0_15px_rgba(236,72,153,0.4)] transition uppercase"><i
-                                    class="fa-solid fa-paper-plane mr-2" aria-hidden="true"></i>ENVIAR DM</button>
+                            <textarea id="dm_message" title="Dm Message" rows="3" aria-label="Contenido del mensaje privado" class="w-full px-3 py-2 mb-4 rounded !border-pink-500/50" placeholder="Tu mensaje privado..."></textarea>
+                            <button id="btn_do_dm" title="Enviar mensaje privado al usuario" aria-label="Enviar mensaje privado" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3 rounded shadow-[0_0_15px_rgba(236,72,153,0.4)] transition uppercase"><i class="fa-solid fa-paper-plane mr-2" aria-hidden="true"></i>ENVIAR DM</button>
+                        </div>
+
+                        <div class="bg-pink-950/20 p-4 rounded border border-pink-500/30">
+                            <h3 class="text-sm text-pink-300 hacker-font mb-3"><i class="fa-solid fa-comments mr-2"></i>CHAT CON USUARIO</h3>
+                            <p class="text-xs text-pink-200/60 mb-3">Selecciona un usuario para ver todos sus mensajes enviados al bot y responder directamente.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                <div class="md:col-span-2">
+                                    <div class="relative mb-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
+                                        <input type="text" id="dm_chat_user_search" placeholder="Buscar usuario para chatear..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40">
+                                    </div>
+                                    <div id="dm_chat_user_list" class="premium-list scrollbar !border-pink-500/10 !max-h-28"></div>
+                                    <input type="hidden" id="dm_chat_user_select" value="">
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <button id="btn_dm_chat_load" class="bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-3 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR CHAT</button>
+                                    <button id="btn_dm_chat_refresh" class="bg-pink-900/50 border border-pink-500/30 hover:bg-pink-800 text-pink-200 font-bold py-2 px-3 rounded text-xs uppercase"><i class="fa-solid fa-arrows-rotate mr-1"></i>ACTUALIZAR</button>
+                                </div>
+                            </div>
+                            <div id="dm_chat_messages" class="bg-black/40 rounded border border-pink-500/20 p-3 max-h-64 overflow-y-auto scrollbar space-y-2 mb-3">
+                                <p class="text-pink-400/40 text-xs text-center">Selecciona un usuario y presiona Cargar Chat.</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="text" id="dm_chat_reply" placeholder="Escribir respuesta..." class="flex-1 py-2 px-3 text-xs rounded bg-black/40 border border-pink-500/30 text-pink-100">
+                                <button id="btn_dm_chat_send" class="bg-pink-600 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-paper-plane mr-1"></i>ENVIAR</button>
+                            </div>
                         </div>
                     </div>
 
@@ -1116,9 +1132,9 @@
                                             <p class="text-xs text-red-300/70">Estado: <span
                                                     id="blacklist_config_status">Cargando...</span></p>
                                         </div>
-                                        <label class="flex items-center cursor-pointer" aria-label="Visibilidad de blacklist en auditoría">
-                                            <input type="checkbox" id="blacklist_visibility_toggle"
-                                                class="sr-only peer"
+                                        <label class="flex items-center cursor-pointer"
+                                            aria-label="Visibilidad de blacklist en auditoría">
+                                            <input type="checkbox" id="blacklist_visibility_toggle" class="sr-only peer"
                                                 title="Mostrar razón Blacklist en auditoría"
                                                 aria-label="Mostrar razón Blacklist en auditoría">
                                             <div
@@ -1641,6 +1657,43 @@
                             <button id="btn_autorole_save"
                                 class="w-full bg-emerald-600 hover:bg-emerald-500 text-black font-black py-3 rounded text-lg shadow-[0_0_20px_rgba(16,185,129,0.4)] transition transform hover:-translate-y-1 active:scale-95 uppercase"><i
                                     class="fa-solid fa-floppy-disk mr-2"></i>FIJAR EN BASE DE DATOS</button>
+                        </div>
+
+                        <div class="bg-emerald-900/10 p-4 rounded border border-emerald-500/20 mt-4">
+                            <h3 class="text-sm text-emerald-300 hacker-font mb-3"><i class="fa-solid fa-face-smile mr-2"></i>AUTOROLES POR EMOJI (REACCIÓN)</h3>
+                            <p class="text-xs text-emerald-200/60 mb-3">Configura emojis que al reaccionar asignan un rol. El bot enviará el embed al canal que selecciones.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                                <div>
+                                    <label class="text-xs text-emerald-400 block mb-1 hacker-font">CANAL DEL MENSAJE</label>
+                                    <div class="relative mb-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500/50 text-xs"></i>
+                                        <input type="text" id="autorole_emoji_channel_search" placeholder="Buscar canal..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-emerald-500/30 bg-black/40">
+                                    </div>
+                                    <div id="autorole_emoji_channel_list" class="premium-list scrollbar !border-emerald-500/10 !max-h-32"></div>
+                                    <input type="hidden" id="autorole_emoji_channel_select" value="">
+                                </div>
+                                <div class="space-y-2">
+                                    <div>
+                                        <label class="text-xs text-emerald-400 block mb-1 hacker-font">EMOJI</label>
+                                        <input type="text" id="autorole_emoji_input" placeholder="ej: 🎮 o ID de emoji custom" class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-emerald-500/30 text-emerald-100">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-emerald-400 block mb-1 hacker-font">ROL A ASIGNAR</label>
+                                        <div class="relative mb-1">
+                                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500/50 text-xs"></i>
+                                            <input type="text" id="autorole_emoji_role_search" placeholder="Filtrar rol..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-emerald-500/30 bg-black/40">
+                                        </div>
+                                        <div id="autorole_emoji_role_list" class="premium-list scrollbar !border-emerald-500/10 !max-h-28"></div>
+                                        <input type="hidden" id="autorole_emoji_role_select" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mb-3">
+                                <button id="btn_autorole_emoji_add" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-plus mr-1"></i>AGREGAR EMOJI-ROL</button>
+                                <button id="btn_autorole_emoji_send" class="bg-emerald-600 hover:bg-emerald-500 text-black font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-paper-plane mr-1"></i>ENVIAR EMBED AL CANAL</button>
+                                <button id="btn_autorole_emoji_load" class="bg-emerald-900/50 border border-emerald-500/30 hover:bg-emerald-800 text-emerald-200 font-bold py-2 px-3 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
+                            </div>
+                            <div id="autorole_emoji_list" class="space-y-2"></div>
                         </div>
                     </div>
 
@@ -2248,7 +2301,7 @@
                                         class="py-1 px-2 text-xs rounded bg-black/40 border border-rose-500/30 text-rose-200">
                                         <option value="kick">Kickear</option>
                                         <option value="ban">Banear</option>
-                                        <option value="lockdown">Lockdown del servidor</option>
+                                        <option value="lock">Lockdown del servidor</option>
                                     </select>
                                 </div>
                                 <div class="grid grid-cols-2 gap-2">
@@ -2483,8 +2536,18 @@
                                         class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-200">
                                         <option value="twitch">Twitch</option>
                                         <option value="youtube">YouTube</option>
+                                        <option value="tiktok">TikTok</option>
                                         <option value="kick">Kick</option>
                                         <option value="twitter">Twitter/X</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-lime-300 block mb-1">TIPO DE ALERTA</label>
+                                    <select id="notif_type" title="Tipo de alerta"
+                                        class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-200">
+                                        <option value="live">Solo en vivo / lives</option>
+                                        <option value="video">Solo videos nuevos</option>
+                                        <option value="both">Ambas (lives + videos)</option>
                                     </select>
                                 </div>
                                 <div>
@@ -2534,20 +2597,48 @@
                         <div class="flex items-center gap-3 mb-6 pb-4 border-b border-lime-500/30">
                             <i class="fa-solid fa-clock text-3xl text-lime-400"></i>
                             <div>
-                                <h2 class="text-2xl text-lime-300">RECORDATORIOS ACTIVOS</h2>
-                                <p class="text-xs text-lime-200 hacker-font">Reminders pendientes del servidor</p>
+                                <h2 class="text-2xl text-lime-300">RECORDATORIOS</h2>
+                                <p class="text-xs text-lime-200 hacker-font">Crear y gestionar recordatorios del servidor</p>
                             </div>
                         </div>
+                        <div class="bg-lime-900/10 p-4 rounded border border-lime-500/20 mb-4">
+                            <h3 class="text-sm text-lime-300 hacker-font mb-3"><i class="fa-solid fa-plus mr-2"></i>NUEVO RECORDATORIO</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                                <div>
+                                    <label class="text-xs text-lime-300 block mb-1">USUARIO</label>
+                                    <div class="relative mb-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i>
+                                        <input type="text" id="rem_user_search" placeholder="Buscar usuario..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40">
+                                    </div>
+                                    <div id="rem_user_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>
+                                    <input type="hidden" id="rem_user_select" value="">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-lime-300 block mb-1">CANAL DE ENTREGA</label>
+                                    <div class="relative mb-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i>
+                                        <input type="text" id="rem_channel_search" placeholder="Buscar canal..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40">
+                                    </div>
+                                    <div id="rem_channel_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>
+                                    <input type="hidden" id="rem_channel_select" value="">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-lime-300 block mb-1">FECHA Y HORA</label>
+                                    <input type="datetime-local" id="rem_when" title="Fecha y hora del recordatorio" class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-100">
+                                </div>
+                                <div>
+                                    <label class="text-xs text-lime-300 block mb-1">MENSAJE</label>
+                                    <input type="text" id="rem_message" placeholder="Mensaje del recordatorio..." class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-100">
+                                </div>
+                            </div>
+                            <button id="btn_reminder_create" class="bg-lime-600 hover:bg-lime-500 text-black font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-plus mr-1"></i>CREAR RECORDATORIO</button>
+                        </div>
                         <div class="flex justify-between items-center mb-3">
-                            <span class="text-xs text-lime-300/60">Recordatorios pendientes que no se han
-                                entregado</span>
-                            <button id="btn_reminders_fetch"
-                                class="bg-lime-700 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i
-                                    class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
+                            <span class="text-xs text-lime-300/60">Recordatorios pendientes que no se han entregado</span>
+                            <button id="btn_reminders_fetch" class="bg-lime-700 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
                         </div>
                         <div id="reminders_list" class="space-y-2 max-h-[400px] overflow-y-auto scrollbar">
-                            <p class="text-lime-400/50 text-sm text-center">Presiona cargar para ver recordatorios
-                                activos.</p>
+                            <p class="text-lime-400/50 text-sm text-center">Presiona cargar para ver recordatorios activos.</p>
                         </div>
                     </div>
 
@@ -4098,11 +4189,25 @@
                                 <select id="clear_type" aria-label="Tipo de contenido a limpiar"
                                     class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-red-500/30 text-red-200">
                                     <option value="all">Todos los mensajes</option>
-                                    <option value="user">De usuario</option>
+                                    <option value="user">De usuario específico</option>
                                     <option value="bot">De bots</option>
                                     <option value="links">Con enlaces</option>
-                                    <option value="images">Con imágenes</option>
+                                    <option value="images">Con imágenes/archivos</option>
+                                    <option value="commands">Comandos de slash</option>
+                                    <option value="keyword">Por palabra clave</option>
                                 </select>
+                                <div id="clear_user_filter_row" class="hidden">
+                                    <label class="text-xs text-red-400/70 block mb-1">FILTRAR POR USUARIO</label>
+                                    <div class="relative mb-1">
+                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-red-500/50 text-xs"></i>
+                                        <input type="text" id="clear_user_search" placeholder="Buscar usuario..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-red-500/30 bg-black/40">
+                                    </div>
+                                    <div id="clear_user_list" class="premium-list scrollbar !border-red-500/10 !max-h-28"></div>
+                                    <input type="hidden" id="clear_user_select" value="">
+                                </div>
+                                <div id="clear_keyword_filter_row" class="hidden">
+                                    <input type="text" id="clear_keyword" placeholder="Palabra clave a buscar..." class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-red-500/30 text-red-200">
+                                </div>
                                 <input type="number" id="clear_hours" placeholder="Últimas X horas"
                                     class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-red-500/30 text-red-200"
                                     value="24">
@@ -4154,9 +4259,15 @@
                                     <option value="5m">5 minutos</option>
                                     <option value="15m">15 minutos</option>
                                     <option value="1h">1 hora</option>
+                                    <option value="6h">6 horas</option>
                                     <option value="24h">24 horas</option>
+                                    <option value="7d">7 días</option>
+                                    <option value="28d">28 días (máx)</option>
                                     <option value="permanent">Permanente</option>
+                                    <option value="custom">Personalizado...</option>
                                 </select>
+                                <input type="text" id="mute_duration_custom" placeholder="ej: 2h, 30m, 3d" style="display:none"
+                                    class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200 mt-1">
                                 <textarea id="mute_reason" placeholder="Razón (opcional)"
                                     class="w-full px-3 py-2 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200"
                                     rows="2"></textarea>
@@ -4724,6 +4835,7 @@
                     { list: '#paises_role_list', input: '#paises_role_select', search: '#paises_role_search' },
                     { list: '#scfg_autorole_list', input: '#scfg_autorole_select', search: '#scfg_autorole_search' },
                     { list: '#wl_role_list', input: '#wl_role_select', search: '#wl_role_search' },
+                    { list: '#autorole_emoji_role_list', input: '#autorole_emoji_role_select', search: '#autorole_emoji_role_search' },
                 ];
 
                 rolePanels.forEach(p => {
@@ -4762,6 +4874,8 @@
                     { list: '#clear_channel_list', input: '#clear_channel_select', search: '#clear_channel_search' },
                     { list: '#mute_channel_list', input: '#mute_channel_select', search: '#mute_channel_search' },
                     { list: '#snipe_adv_channel_list', input: '#snipe_adv_channel_select', search: '#snipe_adv_channel_search' },
+                    { list: '#rem_channel_list', input: '#rem_channel_select', search: '#rem_channel_search' },
+                    { list: '#autorole_emoji_channel_list', input: '#autorole_emoji_channel_select', search: '#autorole_emoji_channel_search' },
                 ];
 
                 channelPanels.forEach(p => {
@@ -4800,6 +4914,9 @@
                     { list: '#audit_user_list', input: '#audit_user_select', search: '#audit_user_search' },
                     { list: '#snipe_adv_user_list', input: '#snipe_adv_user_select', search: '#snipe_adv_user_search' },
                     { list: '#crypto_user_list', input: '#crypto_user_select', search: '#crypto_user_search' },
+                    { list: '#rem_user_list', input: '#rem_user_select', search: '#rem_user_search' },
+                    { list: '#clear_user_list', input: '#clear_user_select', search: '#clear_user_search' },
+                    { list: '#dm_chat_user_list', input: '#dm_chat_user_select', search: '#dm_chat_user_search' },
                 ];
 
                 memberPanels.forEach(p => {
@@ -5672,13 +5789,14 @@
 
         wireBtn('btn_notif_add', () => doAction('btn_notif_add', async () => {
             const platform = getVal('notif_platform');
+            const notifType = getVal('notif_type') || 'both';
             const channelName = document.getElementById('notif_channel_name')?.value?.trim();
             const discordChannelId = getVal('notif_discord_channel');
             const message = document.getElementById('notif_message')?.value?.trim();
             if (!platform) return { error: 'Selecciona una plataforma' };
             if (!channelName) return { error: 'Ingresa el nombre del canal/streamer' };
             if (!discordChannelId) return { error: 'Selecciona el canal de Discord donde notificar' };
-            const r = await api(`/api/guilds/${currentGuildId}/notifications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform, channelName, discordChannelId, message }) });
+            const r = await api(`/api/guilds/${currentGuildId}/notifications`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform, notifType, channelName, discordChannelId, message }) });
             if (r?.error) return { error: r.error };
             document.getElementById('notif_channel_name').value = '';
             document.getElementById('notif_message').value = '';
@@ -6087,6 +6205,76 @@ ${imgs}${stickers}
             return r ? { _msg: r.msg || 'Auto-rol guardado correctamente' } : { error: 'Fallo al guardar auto-rol' };
         }));
 
+        wireBtn('btn_autorole_emoji_load', () => doAction('btn_autorole_emoji_load', async () => {
+            const r = await api(`/api/guilds/${currentGuildId}/autoroles-emoji`);
+            const container = document.getElementById('autorole_emoji_list');
+            const cfg = r?.config;
+            if (!cfg || !cfg.roles || !cfg.roles.length) {
+                container.innerHTML = '<p class="text-emerald-400/50 text-xs text-center">Sin configuración de emoji-roles. Agrega uno arriba.</p>';
+                return { _msg: 'Sin emoji-roles configurados' };
+            }
+            container.innerHTML = cfg.roles.map((er, i) => `<div class="bg-emerald-900/20 p-3 rounded border border-emerald-500/20 text-xs flex justify-between items-center"><span class="text-emerald-200"><span class="text-lg mr-2">${er.emoji}</span>${er.roleName || er.roleId}</span><button onclick="removeEmojiRole(${i})" class="bg-red-900/60 hover:bg-red-800 text-red-300 px-2 py-1 rounded text-[10px] uppercase">Quitar</button></div>`).join('');
+            return { _msg: `${cfg.roles.length} emoji-roles cargados` };
+        }));
+
+        window.removeEmojiRole = async (index) => {
+            const r = await api(`/api/guilds/${currentGuildId}/autoroles-emoji/${index}`, { method: 'DELETE' });
+            if (r?.success) { document.getElementById('btn_autorole_emoji_load').click(); toast('Emoji-rol eliminado'); }
+            else toast('Error al eliminar', true);
+        };
+
+        wireBtn('btn_autorole_emoji_add', () => doAction('btn_autorole_emoji_add', async () => {
+            const emoji = document.getElementById('autorole_emoji_input')?.value?.trim();
+            const roleId = getVal('autorole_emoji_role_select');
+            if (!emoji) return { error: 'Ingresa un emoji' };
+            if (!roleId) return { error: 'Selecciona un rol' };
+            const roleName = cachedRoles.find(r => r.id === roleId)?.name || roleId;
+            const r = await api(`/api/guilds/${currentGuildId}/autoroles-emoji`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ emoji, roleId, roleName }) });
+            if (r?.success) { document.getElementById('autorole_emoji_input').value = ''; document.getElementById('btn_autorole_emoji_load').click(); }
+            return r?.success ? { _msg: `Emoji-rol ${emoji} → ${roleName} agregado` } : { error: r?.error || 'Fallo al agregar' };
+        }));
+
+        wireBtn('btn_autorole_emoji_send', () => doAction('btn_autorole_emoji_send', async () => {
+            const channelId = getVal('autorole_emoji_channel_select');
+            if (!channelId) return { error: 'Selecciona un canal' };
+            const r = await api(`/api/guilds/${currentGuildId}/autoroles-emoji/send`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelId }) });
+            return r?.success ? { _msg: 'Embed de auto-roles enviado al canal' } : { error: r?.error || 'Fallo al enviar embed' };
+        }));
+
+        wireBtn('btn_reminder_create', () => doAction('btn_reminder_create', async () => {
+            const userId = getVal('rem_user_select');
+            const channelId = getVal('rem_channel_select');
+            const when = document.getElementById('rem_when')?.value;
+            const message = document.getElementById('rem_message')?.value?.trim();
+            if (!userId) return { error: 'Selecciona un usuario' };
+            if (!channelId) return { error: 'Selecciona un canal' };
+            if (!when) return { error: 'Elige la fecha y hora' };
+            if (!message) return { error: 'Escribe el mensaje del recordatorio' };
+            const r = await api(`/api/guilds/${currentGuildId}/reminders`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId, channelId, when: new Date(when).toISOString(), message }) });
+            if (r?.success) { document.getElementById('rem_message').value = ''; document.getElementById('rem_when').value = ''; document.getElementById('btn_reminders_fetch').click(); }
+            return r?.success ? { _msg: 'Recordatorio creado correctamente' } : { error: r?.error || 'Fallo al crear recordatorio' };
+        }));
+
+        (() => {
+            const clearType = document.getElementById('clear_type');
+            if (clearType) {
+                clearType.addEventListener('change', () => {
+                    const v = clearType.value;
+                    const userRow = document.getElementById('clear_user_filter_row');
+                    const kwRow = document.getElementById('clear_keyword_filter_row');
+                    if (userRow) userRow.classList.toggle('hidden', v !== 'user');
+                    if (kwRow) kwRow.classList.toggle('hidden', v !== 'keyword');
+                });
+            }
+            const muteDur = document.getElementById('mute_duration');
+            const muteDurCustom = document.getElementById('mute_duration_custom');
+            if (muteDur && muteDurCustom) {
+                muteDur.addEventListener('change', () => {
+                    muteDurCustom.style.display = muteDur.value === 'custom' ? '' : 'none';
+                });
+            }
+        })();
+
         wireBtn('btn_sug_fetch', () => doAction('btn_sug_fetch', async () => {
             const r = await api(`/api/bot/suggestions/${currentGuildId}`);
             const list = document.getElementById('sug_list');
@@ -6367,6 +6555,28 @@ ${imgs}${stickers}
             return r ? { _msg: 'Rol removido de la whitelist' } : { error: 'Fallo al remover rol' };
         }));
 
+        (() => {
+            const updateEmbedPreview = () => {
+                const title = document.getElementById('embed_title')?.value || 'Título del embed';
+                const desc = document.getElementById('embed_desc')?.value || 'Descripción aparecerá aquí...';
+                const color = document.getElementById('embed_color')?.value || '#9b59b6';
+                const footer = document.getElementById('embed_footer')?.value || 'Footer';
+                const titleEl = document.getElementById('embed_preview_title');
+                const descEl = document.getElementById('embed_preview_desc');
+                const footerEl = document.getElementById('embed_preview_footer');
+                const box = document.getElementById('embed_preview_box');
+                if (titleEl) titleEl.textContent = title;
+                if (descEl) descEl.textContent = desc;
+                if (footerEl) footerEl.textContent = footer;
+                if (box) { const c = color.startsWith('#') ? color : '#9b59b6'; box.style.borderLeftColor = c; }
+            };
+            ['embed_title', 'embed_desc', 'embed_color', 'embed_footer', 'embed_image'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updateEmbedPreview);
+            });
+            updateEmbedPreview();
+        })();
+
         wireBtn('btn_embed_send', () => doAction('btn_embed_send', async () => {
             const channelId = getVal('embed_channel');
             const title = getVal('embed_title');
@@ -6388,11 +6598,15 @@ ${imgs}${stickers}
             const type = getVal('clear_type');
             const hours = getVal('clear_hours') || 24;
             const limit = getVal('clear_limit') || 50;
+            const userId = type === 'user' ? getVal('clear_user_select') : null;
+            const keyword = type === 'keyword' ? document.getElementById('clear_keyword')?.value?.trim() : null;
             if (!channelId) return { error: 'Selecciona un canal' };
-            const r = await api(`/api/guilds/${currentGuildId}/clear`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelId, type, hours: parseInt(hours), limit: parseInt(limit) }) });
-            if (r && r.deleted) {
+            if (type === 'user' && !userId) return { error: 'Selecciona un usuario para filtrar' };
+            if (type === 'keyword' && !keyword) return { error: 'Ingresa una palabra clave' };
+            const r = await api(`/api/guilds/${currentGuildId}/clear`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelId, type, hours: parseInt(hours), limit: parseInt(limit), userId, keyword }) });
+            if (r && r.deleted !== undefined) {
                 showResult('clear_result', `<div class="bg-red-900/20 p-3 rounded border border-red-500/30 text-red-200 text-sm"><i class="fa-solid fa-check text-red-400 mr-2"></i>Se eliminaron ${r.deleted} mensajes</div>`);
-                return { _msg: `${r.deleted} mensajes eliminados` };
+                return r.deleted > 0 ? { _msg: `${r.deleted} mensajes eliminados` } : { _msg: 'No se encontraron mensajes con esos filtros' };
             }
             return { error: r?.error || 'Fallo al limpiar' };
         }));
@@ -6401,8 +6615,10 @@ ${imgs}${stickers}
             const channelId = getVal('clear_channel_select');
             const type = getVal('clear_type');
             const hours = getVal('clear_hours') || 24;
+            const userId = type === 'user' ? getVal('clear_user_select') : null;
+            const keyword = type === 'keyword' ? document.getElementById('clear_keyword')?.value?.trim() : null;
             if (!channelId) return { error: 'Selecciona un canal' };
-            const r = await api(`/api/guilds/${currentGuildId}/clear?preview=true`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelId, type, hours: parseInt(hours), limit: 100 }) });
+            const r = await api(`/api/guilds/${currentGuildId}/clear`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelId, type, hours: parseInt(hours), limit: 100, userId, keyword, preview: true }) });
             if (r && r.matches) {
                 showResult('clear_result', `<div class="bg-red-900/10 p-3 rounded border border-red-500/20 text-red-200 text-sm"><i class="fa-solid fa-eye text-red-400 mr-2"></i>Encontrados ${r.matches} mensajes que coinciden</div>`);
                 return { _msg: `${r.matches} mensajes coinciden con los filtros` };
@@ -6416,12 +6632,53 @@ ${imgs}${stickers}
 
         wireBtn('btn_mute_channel', () => doAction('btn_mute_channel', async () => {
             const channelId = getVal('mute_channel_select');
-            const duration = getVal('mute_duration');
+            let duration = getVal('mute_duration');
+            if (duration === 'custom') duration = document.getElementById('mute_duration_custom')?.value?.trim() || '1h';
             const reason = getVal('mute_reason') || '';
             if (!channelId) return { error: 'Selecciona un canal' };
             const r = await api(`/api/guilds/${currentGuildId}/mute-channel`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ channelId, duration, reason }) });
-            const msg = r && r.muted ? `${r.muted} usuarios muteados en el canal` : 'Canal silenciado correctamente';
-            return r ? { _msg: msg } : { error: 'Fallo al mutetar canal' };
+            if (!r) return { error: 'Fallo al mutear canal' };
+            if (r.error) return { error: r.error };
+            if (r.muted === 0) return { error: 'No se pudo mutear a ningún usuario (verifica permisos del bot)' };
+            return { _msg: `${r.muted} usuarios muteados en el canal` };
+        }));
+
+        let dmChatCurrentUserId = null;
+        const renderDmChat = (messages) => {
+            const box = document.getElementById('dm_chat_messages');
+            if (!box) return;
+            if (!messages || !messages.length) { box.innerHTML = '<p class="text-pink-400/40 text-xs text-center">Sin mensajes aún. Cuando el usuario le envíe algo al bot aparecerá aquí.</p>'; return; }
+            box.innerHTML = messages.map(m => {
+                const isBot = !m.fromUser;
+                const bg = isBot ? 'bg-pink-900/30 border-pink-500/20 ml-8' : 'bg-black/30 border-white/10 mr-8';
+                const align = isBot ? 'text-right' : 'text-left';
+                const label = isBot ? '<span class="text-pink-400 text-[10px]">Bot</span>' : '<span class="text-white/50 text-[10px]">Usuario</span>';
+                const time = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }) : '';
+                return `<div class="p-2 rounded border ${bg} ${align}"><div>${label} <span class="text-white/30 text-[10px]">${time}</span></div><div class="text-white/90 text-xs mt-1">${m.content || ''}</div></div>`;
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        };
+        wireBtn('btn_dm_chat_load', () => doAction('btn_dm_chat_load', async () => {
+            const userId = getVal('dm_chat_user_select');
+            if (!userId) return { error: 'Selecciona un usuario' };
+            dmChatCurrentUserId = userId;
+            const r = await api(`/api/guilds/${currentGuildId}/dm-chat/${userId}`);
+            renderDmChat(r?.messages);
+            return { _msg: `Chat cargado: ${(r?.messages || []).length} mensajes` };
+        }));
+        wireBtn('btn_dm_chat_refresh', () => doAction('btn_dm_chat_refresh', async () => {
+            if (!dmChatCurrentUserId) return { error: 'Carga un chat primero' };
+            const r = await api(`/api/guilds/${currentGuildId}/dm-chat/${dmChatCurrentUserId}`);
+            renderDmChat(r?.messages);
+            return { _msg: 'Chat actualizado' };
+        }));
+        wireBtn('btn_dm_chat_send', () => doAction('btn_dm_chat_send', async () => {
+            if (!dmChatCurrentUserId) return { error: 'Carga un chat primero' };
+            const content = document.getElementById('dm_chat_reply')?.value?.trim();
+            if (!content) return { error: 'Escribe un mensaje' };
+            const r = await api(`/api/guilds/${currentGuildId}/dm-chat/${dmChatCurrentUserId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }) });
+            if (r?.success) { document.getElementById('dm_chat_reply').value = ''; document.getElementById('btn_dm_chat_refresh').click(); }
+            return r?.success ? { _msg: 'Mensaje enviado' } : { error: r?.error || 'Fallo al enviar' };
         }));
 
         (() => {
