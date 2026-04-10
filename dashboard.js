@@ -301,6 +301,7 @@ function enterDashboard(sv) {
 
     loadHWStatus()
     fetchCoreSettings()
+    fetchEscalationConfig()
 
     fetchRoles()
     fetchChannels()
@@ -427,6 +428,20 @@ function openWorkPanel(id) {
 
 
 
+
+async function fetchEscalationConfig() {
+    if (!currentGuildId) return
+    try {
+        const data = await api(`/api/bot/warn-escalation/${currentGuildId}`)
+        if (!data) return
+        const mw = document.getElementById('esc_mute_warns')
+        const md = document.getElementById('esc_mute_dur')
+        const bw = document.getElementById('esc_ban_warns')
+        if (mw) mw.value = data.muteWarns ?? 3
+        if (md) md.value = data.muteDuration ?? 60
+        if (bw) bw.value = data.banWarns ?? 5
+    } catch (e) { }
+}
 
 async function fetchCoreSettings() {
     if (!currentGuildId) return
