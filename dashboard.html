@@ -475,6 +475,11 @@
                         data-target="mod-bureau" aria-label="Menu item"><i
                             class="fa-solid fa-address-card w-6 text-center text-cyan-400" aria-hidden="true"></i><span
                             class="ml-2 text-sm">Burocracia (C&#233;dulas)</span></button>
+                    <button
+                        class="menu-item sidebar-btn w-full text-left px-4 py-3 rounded text-purple-200 font-bold flex items-center"
+                        data-target="mod-cedula-permisos" aria-label="Menu item"><i
+                            class="fa-solid fa-lock w-6 text-center text-cyan-400" aria-hidden="true"></i><span
+                            class="ml-2 text-sm">Permisos Cédulas</span></button>
                     <div class="text-xs text-purple-500/70 hacker-font mt-6 mb-2 pl-2">ECONOM&#205;A RP</div>
                     <button
                         class="menu-item sidebar-btn w-full text-left px-4 py-3 rounded text-purple-200 font-bold flex items-center"
@@ -985,41 +990,66 @@
                         <div class="bg-pink-950/20 p-6 rounded border border-pink-500/30 mb-4">
                             <label class="text-xs text-pink-300 mb-1 block hacker-font">SELECCIONAR USUARIO</label>
                             <div class="relative mb-2">
-                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
-                                <input type="text" id="dm_user_search" aria-label="Buscar usuario para enviar mensaje" title="Buscar usuario" class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40 ring-1 ring-pink-500/20" placeholder="Buscar miembro...">
+                                <i
+                                    class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
+                                <input type="text" id="dm_user_search" aria-label="Buscar usuario para enviar mensaje"
+                                    title="Buscar usuario"
+                                    class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40 ring-1 ring-pink-500/20"
+                                    placeholder="Buscar miembro...">
                             </div>
                             <div id="dm_user_list" class="premium-list scrollbar !border-pink-500/10 mb-4">
                                 <div class="text-xs text-pink-300/50 p-4 text-center">Cargando miembros...</div>
                             </div>
                             <input type="hidden" id="dm_user_select" title="Dm User Selection" value="">
                             <label class="text-xs text-pink-300 mb-1 block hacker-font mt-2">MENSAJE</label>
-                            <textarea id="dm_message" title="Dm Message" rows="3" aria-label="Contenido del mensaje privado" class="w-full px-3 py-2 mb-4 rounded !border-pink-500/50" placeholder="Tu mensaje privado..."></textarea>
-                            <button id="btn_do_dm" title="Enviar mensaje privado al usuario" aria-label="Enviar mensaje privado" class="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3 rounded shadow-[0_0_15px_rgba(236,72,153,0.4)] transition uppercase"><i class="fa-solid fa-paper-plane mr-2" aria-hidden="true"></i>ENVIAR DM</button>
+                            <textarea id="dm_message" title="Dm Message" rows="3"
+                                aria-label="Contenido del mensaje privado"
+                                class="w-full px-3 py-2 mb-4 rounded !border-pink-500/50"
+                                placeholder="Tu mensaje privado..."></textarea>
+                            <button id="btn_do_dm" title="Enviar mensaje privado al usuario"
+                                aria-label="Enviar mensaje privado"
+                                class="w-full bg-pink-600 hover:bg-pink-500 text-white font-black py-3 rounded shadow-[0_0_15px_rgba(236,72,153,0.4)] transition uppercase"><i
+                                    class="fa-solid fa-paper-plane mr-2" aria-hidden="true"></i>ENVIAR DM</button>
                         </div>
 
                         <div class="bg-pink-950/20 p-4 rounded border border-pink-500/30">
-                            <h3 class="text-sm text-pink-300 hacker-font mb-3"><i class="fa-solid fa-comments mr-2"></i>CHAT CON USUARIO</h3>
-                            <p class="text-xs text-pink-200/60 mb-3">Selecciona un usuario para ver todos sus mensajes enviados al bot y responder directamente.</p>
+                            <h3 class="text-sm text-pink-300 hacker-font mb-3"><i
+                                    class="fa-solid fa-comments mr-2"></i>CHAT CON USUARIO</h3>
+                            <p class="text-xs text-pink-200/60 mb-3">Selecciona un usuario para ver todos sus mensajes
+                                enviados al bot y responder directamente.</p>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                 <div class="md:col-span-2">
                                     <div class="relative mb-1">
-                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
-                                        <input type="text" id="dm_chat_user_search" placeholder="Buscar usuario para chatear..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40">
+                                        <i
+                                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-pink-500/50 text-xs"></i>
+                                        <input type="text" id="dm_chat_user_search"
+                                            placeholder="Buscar usuario para chatear..."
+                                            class="w-full pl-8 pr-3 py-2 text-xs rounded border-pink-500/30 bg-black/40">
                                     </div>
-                                    <div id="dm_chat_user_list" class="premium-list scrollbar !border-pink-500/10 !max-h-28"></div>
+                                    <div id="dm_chat_user_list"
+                                        class="premium-list scrollbar !border-pink-500/10 !max-h-28"></div>
                                     <input type="hidden" id="dm_chat_user_select" value="">
                                 </div>
                                 <div class="flex flex-col gap-2">
-                                    <button id="btn_dm_chat_load" class="bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-3 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR CHAT</button>
-                                    <button id="btn_dm_chat_refresh" class="bg-pink-900/50 border border-pink-500/30 hover:bg-pink-800 text-pink-200 font-bold py-2 px-3 rounded text-xs uppercase"><i class="fa-solid fa-arrows-rotate mr-1"></i>ACTUALIZAR</button>
+                                    <button id="btn_dm_chat_load"
+                                        class="bg-pink-700 hover:bg-pink-600 text-white font-bold py-2 px-3 rounded text-xs uppercase"><i
+                                            class="fa-solid fa-rotate mr-1"></i>CARGAR CHAT</button>
+                                    <button id="btn_dm_chat_refresh"
+                                        class="bg-pink-900/50 border border-pink-500/30 hover:bg-pink-800 text-pink-200 font-bold py-2 px-3 rounded text-xs uppercase"><i
+                                            class="fa-solid fa-arrows-rotate mr-1"></i>ACTUALIZAR</button>
                                 </div>
                             </div>
-                            <div id="dm_chat_messages" class="bg-black/40 rounded border border-pink-500/20 p-3 max-h-64 overflow-y-auto scrollbar space-y-2 mb-3">
-                                <p class="text-pink-400/40 text-xs text-center">Selecciona un usuario y presiona Cargar Chat.</p>
+                            <div id="dm_chat_messages"
+                                class="bg-black/40 rounded border border-pink-500/20 p-3 max-h-64 overflow-y-auto scrollbar space-y-2 mb-3">
+                                <p class="text-pink-400/40 text-xs text-center">Selecciona un usuario y presiona Cargar
+                                    Chat.</p>
                             </div>
                             <div class="flex gap-2">
-                                <input type="text" id="dm_chat_reply" placeholder="Escribir respuesta..." class="flex-1 py-2 px-3 text-xs rounded bg-black/40 border border-pink-500/30 text-pink-100">
-                                <button id="btn_dm_chat_send" class="bg-pink-600 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-paper-plane mr-1"></i>ENVIAR</button>
+                                <input type="text" id="dm_chat_reply" placeholder="Escribir respuesta..."
+                                    class="flex-1 py-2 px-3 text-xs rounded bg-black/40 border border-pink-500/30 text-pink-100">
+                                <button id="btn_dm_chat_send"
+                                    class="bg-pink-600 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i
+                                        class="fa-solid fa-paper-plane mr-1"></i>ENVIAR</button>
                             </div>
                         </div>
                     </div>
@@ -1417,6 +1447,62 @@
                     </div>
 
 
+                    <!-- CEDULA PERMISSIONS PANEL -->
+                    <div id="mod-cedula-permisos" class="workspace-panel hidden glass-panel p-8 rounded-xl animate-slide-up border border-cyan-500/30">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-cyan-500/30">
+                            <i class="fa-solid fa-lock text-3xl text-cyan-400"></i>
+                            <div>
+                                <h2 class="text-2xl text-cyan-400">PERMISOS DE CÉDULAS</h2>
+                                <p class="text-xs text-cyan-300 hacker-font">Gestionar acceso al sistema IC</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Edit permissions -->
+                            <div class="bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/20">
+                                <h3 class="text-cyan-300 font-bold text-sm mb-3 uppercase">✏️ Puede Editar Cédulas</h3>
+                                <div id="perm_edit_list" class="space-y-1 mb-3 min-h-[40px]">
+                                    <p class="text-xs text-cyan-300/50 text-center">Cargando...</p>
+                                </div>
+                                <div class="flex gap-2 mb-2">
+                                    <select id="perm_edit_type" class="bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1">
+                                        <option value="user">Usuario</option>
+                                        <option value="role">Rol</option>
+                                    </select>
+                                    <input type="text" id="perm_edit_id" placeholder="ID de usuario o rol"
+                                        class="flex-1 bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1" />
+                                </div>
+                                <div class="flex gap-2">
+                                    <button id="btn_perm_edit_add" class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-1.5 rounded text-xs uppercase">+ Dar</button>
+                                    <button id="btn_perm_edit_remove" class="flex-1 bg-transparent border border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold py-1.5 rounded text-xs uppercase">− Quitar</button>
+                                </div>
+                            </div>
+
+                            <!-- Delete permissions -->
+                            <div class="bg-cyan-900/10 p-4 rounded-lg border border-cyan-500/20">
+                                <h3 class="text-cyan-300 font-bold text-sm mb-3 uppercase">🗑️ Puede Borrar Cédulas</h3>
+                                <div id="perm_delete_list" class="space-y-1 mb-3 min-h-[40px]">
+                                    <p class="text-xs text-cyan-300/50 text-center">Cargando...</p>
+                                </div>
+                                <div class="flex gap-2 mb-2">
+                                    <select id="perm_delete_type" class="bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1">
+                                        <option value="user">Usuario</option>
+                                        <option value="role">Rol</option>
+                                    </select>
+                                    <input type="text" id="perm_delete_id" placeholder="ID de usuario o rol"
+                                        class="flex-1 bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1" />
+                                </div>
+                                <div class="flex gap-2">
+                                    <button id="btn_perm_delete_add" class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-1.5 rounded text-xs uppercase">+ Dar</button>
+                                    <button id="btn_perm_delete_remove" class="flex-1 bg-transparent border border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold py-1.5 rounded text-xs uppercase">− Quitar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="btn_cedula_permisos_load" class="mt-4 bg-cyan-900/50 border border-cyan-500/30 hover:bg-cyan-800 text-cyan-200 font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR PERMISOS</button>
+                    </div>
+
+
                     <div id="mod-god-eval"
                         class="workspace-panel hidden glass-panel p-8 rounded-xl animate-slide-up border border-red-500/50 shadow-[0_0_30px_rgba(220,38,38,0.2)]">
                         <div class="flex items-center gap-3 mb-6 pb-4 border-b border-red-500/30">
@@ -1660,38 +1746,58 @@
                         </div>
 
                         <div class="bg-emerald-900/10 p-4 rounded border border-emerald-500/20 mt-4">
-                            <h3 class="text-sm text-emerald-300 hacker-font mb-3"><i class="fa-solid fa-face-smile mr-2"></i>AUTOROLES POR EMOJI (REACCIÓN)</h3>
-                            <p class="text-xs text-emerald-200/60 mb-3">Configura emojis que al reaccionar asignan un rol. El bot enviará el embed al canal que selecciones.</p>
+                            <h3 class="text-sm text-emerald-300 hacker-font mb-3"><i
+                                    class="fa-solid fa-face-smile mr-2"></i>AUTOROLES POR EMOJI (REACCIÓN)</h3>
+                            <p class="text-xs text-emerald-200/60 mb-3">Configura emojis que al reaccionar asignan un
+                                rol. El bot enviará el embed al canal que selecciones.</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div>
-                                    <label class="text-xs text-emerald-400 block mb-1 hacker-font">CANAL DEL MENSAJE</label>
+                                    <label class="text-xs text-emerald-400 block mb-1 hacker-font">CANAL DEL
+                                        MENSAJE</label>
                                     <div class="relative mb-1">
-                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500/50 text-xs"></i>
-                                        <input type="text" id="autorole_emoji_channel_search" placeholder="Buscar canal..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-emerald-500/30 bg-black/40">
+                                        <i
+                                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500/50 text-xs"></i>
+                                        <input type="text" id="autorole_emoji_channel_search"
+                                            placeholder="Buscar canal..."
+                                            class="w-full pl-8 pr-3 py-2 text-xs rounded border-emerald-500/30 bg-black/40">
                                     </div>
-                                    <div id="autorole_emoji_channel_list" class="premium-list scrollbar !border-emerald-500/10 !max-h-32"></div>
+                                    <div id="autorole_emoji_channel_list"
+                                        class="premium-list scrollbar !border-emerald-500/10 !max-h-32"></div>
                                     <input type="hidden" id="autorole_emoji_channel_select" value="">
                                 </div>
                                 <div class="space-y-2">
                                     <div>
                                         <label class="text-xs text-emerald-400 block mb-1 hacker-font">EMOJI</label>
-                                        <input type="text" id="autorole_emoji_input" placeholder="ej: 🎮 o ID de emoji custom" class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-emerald-500/30 text-emerald-100">
+                                        <input type="text" id="autorole_emoji_input"
+                                            placeholder="ej: 🎮 o ID de emoji custom"
+                                            class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-emerald-500/30 text-emerald-100">
                                     </div>
                                     <div>
-                                        <label class="text-xs text-emerald-400 block mb-1 hacker-font">ROL A ASIGNAR</label>
+                                        <label class="text-xs text-emerald-400 block mb-1 hacker-font">ROL A
+                                            ASIGNAR</label>
                                         <div class="relative mb-1">
-                                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500/50 text-xs"></i>
-                                            <input type="text" id="autorole_emoji_role_search" placeholder="Filtrar rol..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-emerald-500/30 bg-black/40">
+                                            <i
+                                                class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500/50 text-xs"></i>
+                                            <input type="text" id="autorole_emoji_role_search"
+                                                placeholder="Filtrar rol..."
+                                                class="w-full pl-8 pr-3 py-2 text-xs rounded border-emerald-500/30 bg-black/40">
                                         </div>
-                                        <div id="autorole_emoji_role_list" class="premium-list scrollbar !border-emerald-500/10 !max-h-28"></div>
+                                        <div id="autorole_emoji_role_list"
+                                            class="premium-list scrollbar !border-emerald-500/10 !max-h-28"></div>
                                         <input type="hidden" id="autorole_emoji_role_select" value="">
                                     </div>
                                 </div>
                             </div>
                             <div class="flex gap-2 mb-3">
-                                <button id="btn_autorole_emoji_add" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-plus mr-1"></i>AGREGAR EMOJI-ROL</button>
-                                <button id="btn_autorole_emoji_send" class="bg-emerald-600 hover:bg-emerald-500 text-black font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-paper-plane mr-1"></i>ENVIAR EMBED AL CANAL</button>
-                                <button id="btn_autorole_emoji_load" class="bg-emerald-900/50 border border-emerald-500/30 hover:bg-emerald-800 text-emerald-200 font-bold py-2 px-3 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
+                                <button id="btn_autorole_emoji_add"
+                                    class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i
+                                        class="fa-solid fa-plus mr-1"></i>AGREGAR EMOJI-ROL</button>
+                                <button id="btn_autorole_emoji_send"
+                                    class="bg-emerald-600 hover:bg-emerald-500 text-black font-bold py-2 px-4 rounded text-xs uppercase"><i
+                                        class="fa-solid fa-paper-plane mr-1"></i>ENVIAR EMBED AL CANAL</button>
+                                <button id="btn_autorole_emoji_load"
+                                    class="bg-emerald-900/50 border border-emerald-500/30 hover:bg-emerald-800 text-emerald-200 font-bold py-2 px-3 rounded text-xs uppercase"><i
+                                        class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
                             </div>
                             <div id="autorole_emoji_list" class="space-y-2"></div>
                         </div>
@@ -2598,47 +2704,63 @@
                             <i class="fa-solid fa-clock text-3xl text-lime-400"></i>
                             <div>
                                 <h2 class="text-2xl text-lime-300">RECORDATORIOS</h2>
-                                <p class="text-xs text-lime-200 hacker-font">Crear y gestionar recordatorios del servidor</p>
+                                <p class="text-xs text-lime-200 hacker-font">Crear y gestionar recordatorios del
+                                    servidor</p>
                             </div>
                         </div>
                         <div class="bg-lime-900/10 p-4 rounded border border-lime-500/20 mb-4">
-                            <h3 class="text-sm text-lime-300 hacker-font mb-3"><i class="fa-solid fa-plus mr-2"></i>NUEVO RECORDATORIO</h3>
+                            <h3 class="text-sm text-lime-300 hacker-font mb-3"><i
+                                    class="fa-solid fa-plus mr-2"></i>NUEVO RECORDATORIO</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div>
                                     <label class="text-xs text-lime-300 block mb-1">USUARIO</label>
                                     <div class="relative mb-1">
-                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i>
-                                        <input type="text" id="rem_user_search" placeholder="Buscar usuario..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40">
+                                        <i
+                                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i>
+                                        <input type="text" id="rem_user_search" placeholder="Buscar usuario..."
+                                            class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40">
                                     </div>
-                                    <div id="rem_user_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>
+                                    <div id="rem_user_list"
+                                        class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>
                                     <input type="hidden" id="rem_user_select" value="">
                                 </div>
                                 <div>
                                     <label class="text-xs text-lime-300 block mb-1">CANAL DE ENTREGA</label>
                                     <div class="relative mb-1">
-                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i>
-                                        <input type="text" id="rem_channel_search" placeholder="Buscar canal..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40">
+                                        <i
+                                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-lime-500/50 text-xs"></i>
+                                        <input type="text" id="rem_channel_search" placeholder="Buscar canal..."
+                                            class="w-full pl-8 pr-3 py-2 text-xs rounded border-lime-500/30 bg-black/40">
                                     </div>
-                                    <div id="rem_channel_list" class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>
+                                    <div id="rem_channel_list"
+                                        class="premium-list scrollbar !border-lime-500/10 !max-h-32"></div>
                                     <input type="hidden" id="rem_channel_select" value="">
                                 </div>
                                 <div>
                                     <label class="text-xs text-lime-300 block mb-1">FECHA Y HORA</label>
-                                    <input type="datetime-local" id="rem_when" title="Fecha y hora del recordatorio" class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-100">
+                                    <input type="datetime-local" id="rem_when" title="Fecha y hora del recordatorio"
+                                        class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-100">
                                 </div>
                                 <div>
                                     <label class="text-xs text-lime-300 block mb-1">MENSAJE</label>
-                                    <input type="text" id="rem_message" placeholder="Mensaje del recordatorio..." class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-100">
+                                    <input type="text" id="rem_message" placeholder="Mensaje del recordatorio..."
+                                        class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-lime-500/30 text-lime-100">
                                 </div>
                             </div>
-                            <button id="btn_reminder_create" class="bg-lime-600 hover:bg-lime-500 text-black font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-plus mr-1"></i>CREAR RECORDATORIO</button>
+                            <button id="btn_reminder_create"
+                                class="bg-lime-600 hover:bg-lime-500 text-black font-bold py-2 px-4 rounded text-xs uppercase"><i
+                                    class="fa-solid fa-plus mr-1"></i>CREAR RECORDATORIO</button>
                         </div>
                         <div class="flex justify-between items-center mb-3">
-                            <span class="text-xs text-lime-300/60">Recordatorios pendientes que no se han entregado</span>
-                            <button id="btn_reminders_fetch" class="bg-lime-700 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
+                            <span class="text-xs text-lime-300/60">Recordatorios pendientes que no se han
+                                entregado</span>
+                            <button id="btn_reminders_fetch"
+                                class="bg-lime-700 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded text-xs uppercase"><i
+                                    class="fa-solid fa-rotate mr-1"></i>CARGAR</button>
                         </div>
                         <div id="reminders_list" class="space-y-2 max-h-[400px] overflow-y-auto scrollbar">
-                            <p class="text-lime-400/50 text-sm text-center">Presiona cargar para ver recordatorios activos.</p>
+                            <p class="text-lime-400/50 text-sm text-center">Presiona cargar para ver recordatorios
+                                activos.</p>
                         </div>
                     </div>
 
@@ -4199,14 +4321,18 @@
                                 <div id="clear_user_filter_row" class="hidden">
                                     <label class="text-xs text-red-400/70 block mb-1">FILTRAR POR USUARIO</label>
                                     <div class="relative mb-1">
-                                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-red-500/50 text-xs"></i>
-                                        <input type="text" id="clear_user_search" placeholder="Buscar usuario..." class="w-full pl-8 pr-3 py-2 text-xs rounded border-red-500/30 bg-black/40">
+                                        <i
+                                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-red-500/50 text-xs"></i>
+                                        <input type="text" id="clear_user_search" placeholder="Buscar usuario..."
+                                            class="w-full pl-8 pr-3 py-2 text-xs rounded border-red-500/30 bg-black/40">
                                     </div>
-                                    <div id="clear_user_list" class="premium-list scrollbar !border-red-500/10 !max-h-28"></div>
+                                    <div id="clear_user_list"
+                                        class="premium-list scrollbar !border-red-500/10 !max-h-28"></div>
                                     <input type="hidden" id="clear_user_select" value="">
                                 </div>
                                 <div id="clear_keyword_filter_row" class="hidden">
-                                    <input type="text" id="clear_keyword" placeholder="Palabra clave a buscar..." class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-red-500/30 text-red-200">
+                                    <input type="text" id="clear_keyword" placeholder="Palabra clave a buscar..."
+                                        class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-red-500/30 text-red-200">
                                 </div>
                                 <input type="number" id="clear_hours" placeholder="Últimas X horas"
                                     class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-red-500/30 text-red-200"
@@ -4266,7 +4392,8 @@
                                     <option value="permanent">Permanente</option>
                                     <option value="custom">Personalizado...</option>
                                 </select>
-                                <input type="text" id="mute_duration_custom" placeholder="ej: 2h, 30m, 3d" style="display:none"
+                                <input type="text" id="mute_duration_custom" placeholder="ej: 2h, 30m, 3d"
+                                    style="display:none"
                                     class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200 mt-1">
                                 <textarea id="mute_reason" placeholder="Razón (opcional)"
                                     class="w-full px-3 py-2 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200"
@@ -6168,6 +6295,52 @@ ${imgs}${stickers}
                 return { _msg: 'Avatar actualizado correctamente' };
             }
             return { error: 'Fallo al actualizar avatar' };
+        }));
+
+        // ── Cedula Permissions Panel ──────────────────────────────────
+        const renderCedulaPermisos = (permisosEditar, permisosBorrar) => {
+            const fmt = (arr, el) => {
+                const box = document.getElementById(el);
+                if (!box) return;
+                if (!arr || !arr.length) { box.innerHTML = '<p class="text-xs text-cyan-300/40 text-center italic">Sin permisos configurados</p>'; return; }
+                box.innerHTML = arr.map(p => `<div class="flex justify-between items-center bg-black/30 rounded px-2 py-1 text-xs"><span class="text-cyan-200">${p.type === 'user' ? '👤' : '🏷️'} ${p.id}</span></div>`).join('');
+            };
+            fmt(permisosEditar, 'perm_edit_list');
+            fmt(permisosBorrar, 'perm_delete_list');
+        };
+        const loadCedulaPermisos = async () => {
+            const r = await api(`/api/guilds/${currentGuildId}/cedula-permisos`);
+            if (r) renderCedulaPermisos(r.permisosEditar, r.permisosBorrar);
+            return r;
+        };
+        wireBtn('btn_cedula_permisos_load', () => doAction('btn_cedula_permisos_load', loadCedulaPermisos));
+        wireBtn('btn_perm_edit_add', () => doAction('btn_perm_edit_add', async () => {
+            const t = document.getElementById('perm_edit_type')?.value; const id = document.getElementById('perm_edit_id')?.value?.trim();
+            if (!id) return { error: 'Ingresa un ID' };
+            const r = await api(`/api/guilds/${currentGuildId}/cedula-permisos`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipo: 'edit', accion: 'add', entryType: t, entryId: id }) });
+            if (r?.success) { await loadCedulaPermisos(); document.getElementById('perm_edit_id').value = ''; return { _msg: 'Permiso otorgado' }; }
+            return { error: r?.error || 'Error' };
+        }));
+        wireBtn('btn_perm_edit_remove', () => doAction('btn_perm_edit_remove', async () => {
+            const t = document.getElementById('perm_edit_type')?.value; const id = document.getElementById('perm_edit_id')?.value?.trim();
+            if (!id) return { error: 'Ingresa un ID' };
+            const r = await api(`/api/guilds/${currentGuildId}/cedula-permisos`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipo: 'edit', accion: 'remove', entryType: t, entryId: id }) });
+            if (r?.success) { await loadCedulaPermisos(); document.getElementById('perm_edit_id').value = ''; return { _msg: 'Permiso revocado' }; }
+            return { error: r?.error || 'Error' };
+        }));
+        wireBtn('btn_perm_delete_add', () => doAction('btn_perm_delete_add', async () => {
+            const t = document.getElementById('perm_delete_type')?.value; const id = document.getElementById('perm_delete_id')?.value?.trim();
+            if (!id) return { error: 'Ingresa un ID' };
+            const r = await api(`/api/guilds/${currentGuildId}/cedula-permisos`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipo: 'delete', accion: 'add', entryType: t, entryId: id }) });
+            if (r?.success) { await loadCedulaPermisos(); document.getElementById('perm_delete_id').value = ''; return { _msg: 'Permiso otorgado' }; }
+            return { error: r?.error || 'Error' };
+        }));
+        wireBtn('btn_perm_delete_remove', () => doAction('btn_perm_delete_remove', async () => {
+            const t = document.getElementById('perm_delete_type')?.value; const id = document.getElementById('perm_delete_id')?.value?.trim();
+            if (!id) return { error: 'Ingresa un ID' };
+            const r = await api(`/api/guilds/${currentGuildId}/cedula-permisos`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipo: 'delete', accion: 'remove', entryType: t, entryId: id }) });
+            if (r?.success) { await loadCedulaPermisos(); document.getElementById('perm_delete_id').value = ''; return { _msg: 'Permiso revocado' }; }
+            return { error: r?.error || 'Error' };
         }));
 
         wireBtn('btn_shop_fetch', () => doAction('btn_shop_fetch', async () => {
