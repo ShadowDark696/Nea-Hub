@@ -1448,7 +1448,8 @@
 
 
                     <!-- CEDULA PERMISSIONS PANEL -->
-                    <div id="mod-cedula-permisos" class="workspace-panel hidden glass-panel p-8 rounded-xl animate-slide-up border border-cyan-500/30">
+                    <div id="mod-cedula-permisos"
+                        class="workspace-panel hidden glass-panel p-8 rounded-xl animate-slide-up border border-cyan-500/30">
                         <div class="flex items-center gap-3 mb-6 pb-4 border-b border-cyan-500/30">
                             <i class="fa-solid fa-lock text-3xl text-cyan-400"></i>
                             <div>
@@ -1465,7 +1466,8 @@
                                     <p class="text-xs text-cyan-300/50 text-center">Cargando...</p>
                                 </div>
                                 <div class="flex gap-2 mb-2">
-                                    <select id="perm_edit_type" class="bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1">
+                                    <select id="perm_edit_type" title="Tipo de entrada (Usuario o Rol)"
+                                        class="bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1">
                                         <option value="user">Usuario</option>
                                         <option value="role">Rol</option>
                                     </select>
@@ -1473,8 +1475,12 @@
                                         class="flex-1 bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1" />
                                 </div>
                                 <div class="flex gap-2">
-                                    <button id="btn_perm_edit_add" class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-1.5 rounded text-xs uppercase">+ Dar</button>
-                                    <button id="btn_perm_edit_remove" class="flex-1 bg-transparent border border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold py-1.5 rounded text-xs uppercase">− Quitar</button>
+                                    <button id="btn_perm_edit_add"
+                                        class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-1.5 rounded text-xs uppercase">+
+                                        Dar</button>
+                                    <button id="btn_perm_edit_remove"
+                                        class="flex-1 bg-transparent border border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold py-1.5 rounded text-xs uppercase">−
+                                        Quitar</button>
                                 </div>
                             </div>
 
@@ -1485,7 +1491,8 @@
                                     <p class="text-xs text-cyan-300/50 text-center">Cargando...</p>
                                 </div>
                                 <div class="flex gap-2 mb-2">
-                                    <select id="perm_delete_type" class="bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1">
+                                    <select id="perm_delete_type" title="Tipo de entrada (Usuario o Rol)"
+                                        class="bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1">
                                         <option value="user">Usuario</option>
                                         <option value="role">Rol</option>
                                     </select>
@@ -1493,13 +1500,19 @@
                                         class="flex-1 bg-black/40 border border-cyan-500/30 text-cyan-100 text-xs rounded px-2 py-1" />
                                 </div>
                                 <div class="flex gap-2">
-                                    <button id="btn_perm_delete_add" class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-1.5 rounded text-xs uppercase">+ Dar</button>
-                                    <button id="btn_perm_delete_remove" class="flex-1 bg-transparent border border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold py-1.5 rounded text-xs uppercase">− Quitar</button>
+                                    <button id="btn_perm_delete_add"
+                                        class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white font-bold py-1.5 rounded text-xs uppercase">+
+                                        Dar</button>
+                                    <button id="btn_perm_delete_remove"
+                                        class="flex-1 bg-transparent border border-red-500 text-red-400 hover:bg-red-500 hover:text-white font-bold py-1.5 rounded text-xs uppercase">−
+                                        Quitar</button>
                                 </div>
                             </div>
                         </div>
 
-                        <button id="btn_cedula_permisos_load" class="mt-4 bg-cyan-900/50 border border-cyan-500/30 hover:bg-cyan-800 text-cyan-200 font-bold py-2 px-4 rounded text-xs uppercase"><i class="fa-solid fa-rotate mr-1"></i>CARGAR PERMISOS</button>
+                        <button id="btn_cedula_permisos_load"
+                            class="mt-4 bg-cyan-900/50 border border-cyan-500/30 hover:bg-cyan-800 text-cyan-200 font-bold py-2 px-4 rounded text-xs uppercase"><i
+                                class="fa-solid fa-rotate mr-1"></i>CARGAR PERMISOS</button>
                     </div>
 
 
@@ -4393,8 +4406,7 @@
                                     <option value="custom">Personalizado...</option>
                                 </select>
                                 <input type="text" id="mute_duration_custom" placeholder="ej: 2h, 30m, 3d"
-                                    style="display:none"
-                                    class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200 mt-1">
+                                    class="w-full py-2 px-3 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200 mt-1 hidden" data-hidden-by-js>
                                 <textarea id="mute_reason" placeholder="Razón (opcional)"
                                     class="w-full px-3 py-2 text-xs rounded bg-black/40 border border-orange-500/30 text-orange-200"
                                     rows="2"></textarea>
@@ -6443,7 +6455,7 @@ ${imgs}${stickers}
             const muteDurCustom = document.getElementById('mute_duration_custom');
             if (muteDur && muteDurCustom) {
                 muteDur.addEventListener('change', () => {
-                    muteDurCustom.style.display = muteDur.value === 'custom' ? '' : 'none';
+                    muteDurCustom.classList.toggle('hidden', muteDur.value !== 'custom');
                 });
             }
         })();
